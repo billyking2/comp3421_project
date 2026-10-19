@@ -1,0 +1,15 @@
+# Dependencies
+**/node_modules/
+.pnpm-store/
+
+# Environment variables & secrets
+**/backend/.env
+**/frontend/.env
+.env
+.env.local
+
+# Build outputs & logs
+**/dist/
+**/build/
+*.log
+.DS_Store
