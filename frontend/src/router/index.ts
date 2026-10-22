@@ -1,4 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { useUserStore } from '../types/useUserStore'
+
+
+
+
 
 
 const pages = ['About', 'Book', 'Contact', 'Cart'];
@@ -21,14 +26,20 @@ const routes = [
         name: page.toLowerCase(),
         component: () => import(`../page/${page}.vue`),
     })),
-
 ]
-
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+router.beforeEach((to) => {
+  const userId = useUserStore().userId
+
+  console.log(userId)
+
+  return true
+})
 
 
 export default router;

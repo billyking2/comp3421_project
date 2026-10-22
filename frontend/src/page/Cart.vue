@@ -5,7 +5,10 @@
 </template>
 
 <script setup lang="ts">
-</script>
+import { useUserStore } from '../types/useUserStore'
 
+const userId = useUserStore().userId
+
+</script>
 <style scoped>
 </style>
