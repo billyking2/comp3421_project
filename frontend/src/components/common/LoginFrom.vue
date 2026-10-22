@@ -26,6 +26,6 @@ function login() {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>
