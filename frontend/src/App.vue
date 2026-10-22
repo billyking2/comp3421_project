@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+
+import LoginForm from './components/common/LoginFrom.vue'
 </script>
 
 <template>
-  <HelloWorld />
+
+  <LoginForm />
 </template>
