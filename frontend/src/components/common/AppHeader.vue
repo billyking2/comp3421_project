@@ -17,26 +17,17 @@
 
         <!-- nav link -->
         <nav class="nav-menu" :class="{ 'is-open': isMobileMenuOpen }">
-            <ul>
-                <li class="nav-link">Home</li>
-            </ul>
-            <ul>
-                <li class="nav-link">Book</li>
-            </ul>
-            <ul>
-                <li class="nav-link">About</li>
-            </ul>
-            <ul>
-                <li class="nav-link">Contact</li>
-            </ul>
-
+          <ul><RouterLink to="/" class="nav-link" @click="closeMenu">Home</RouterLink></ul>
+            <ul><RouterLink to="/book" class="nav-link" @click="closeMenu">Book</RouterLink></ul>
+            <ul><RouterLink to="/about" class="nav-link" @click="closeMenu">About</RouterLink></ul>
+            <ul><RouterLink to="/contact" class="nav-link" @click="closeMenu">Contact</RouterLink></ul>
         </nav>
 
         <div class="header-right">
         <div>Search</div>
-        <div>Cart</div>
-        <Button>Login</Button>
-            </div>
+        <div ><RouterLink to="/cart" class="header-right-link">Cart</RouterLink></div>
+        <Button ><RouterLink to="/login" class="header-right-link">Login</RouterLink></Button>
+        </div>
     </div>
   </header>
 </template>
@@ -44,6 +35,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
+
 
 const isMobileMenuOpen = ref(false);
 
@@ -110,8 +102,11 @@ const closeMenu = () => {
     border-right: 1px solid #191b1a;
 }
 
-.nav-link {
+.nav-link,
+.header-right-link {
     cursor: pointer;
+    color: #1a1a1a;
+    text-decoration: none;
 }
 
 .nav-menu ul:last-child {
