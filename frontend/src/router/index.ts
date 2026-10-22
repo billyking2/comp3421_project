@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 
-
+const pages = ['About', 'Book', 'Contact', 'Cart'];
 
 const routes = [
     {
@@ -16,29 +16,11 @@ const routes = [
         component: () => import('../page/Login.vue'),
     },
 
-    {
-        path :   '/about',
-        name :   'about',
-        component: () => import('../page/About.vue'),
-    },
-
-    {
-        path :   '/book',
-        name :   'book',
-        component: () => import('../page/Book.vue'),
-    },
-
-    {
-        path :   '/contact',
-        name :   'contact',
-        component: () => import('../page/Contact.vue'),
-    },
-
-    {
-        path :   '/cart',
-        name :   'cart',
-        component: () => import('../page/Cart.vue'),
-    }
+    ...pages.map((page) => ({
+        path: `/${page.toLowerCase()}`,
+        name: page.toLowerCase(),
+        component: () => import(`../page/${page}.vue`),
+    })),
 
 ]
 
