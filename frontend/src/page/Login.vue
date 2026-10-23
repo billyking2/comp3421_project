@@ -8,15 +8,11 @@
 <script setup lang="ts">
 import LoginForm from '../components/common/LoginForm.vue'
 
-import { useUserStore } from '../types/useUserStore'
+import { useUserStore } from '../store/useUserStore.ts'
 
 const userStore = useUserStore()
 
-const handleLogin = async () => {
-  const response = await ({ userId: "123" })
 
-  userStore.setUserId(response.userId)
-}
 </script>
 
 <style scoped>

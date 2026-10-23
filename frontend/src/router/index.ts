@@ -1,12 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useUserStore } from '../types/useUserStore'
 
-
-
-
-
-
-const pages = ['About', 'Book', 'Contact', 'Cart'];
+const pages = ['About', 'Book', 'Contact', 'shoppingCart', 'NotExit'];
 
 const routes = [
     {
@@ -26,6 +20,11 @@ const routes = [
         name: page.toLowerCase(),
         component: () => import(`../page/${page}.vue`),
     })),
+
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: '/notexit',
+    }
 ]
 
 const router = createRouter({
@@ -33,13 +32,6 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to) => {
-  const userId = useUserStore().userId
-
-  console.log(userId)
-
-  return true
-})
 
 
 export default router;

@@ -8,7 +8,9 @@
       <!-- logo -->
         <div class="logo">Logo</div>
       <!-- hamburger-button -->
-      <button class="hamburger-btn"@click="toggleMenu">
+      <button 
+      class="hamburger-btn"  
+      @click="toggleMenu" >
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
@@ -25,7 +27,7 @@
 
         <div class="header-right">
         <div>Search</div>
-        <div ><RouterLink to="/cart" class="header-right-link">Cart</RouterLink></div>
+        <div ><RouterLink to="/shopping-cart" class="header-right-link">Cart</RouterLink></div>
         <Button ><RouterLink to="/login" class="header-right-link">Login</RouterLink></Button>
         </div>
     </div>
