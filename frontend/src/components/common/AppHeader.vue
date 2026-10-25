@@ -26,9 +26,9 @@
         </nav>
 
         <div class="header-right">
-        <div>Search</div>
+        <el-icon :size="20"><Search /></el-icon>
         <div ><RouterLink to="/shopping-cart" class="header-right-link">Cart</RouterLink></div>
-        <Button ><RouterLink to="/login" class="header-right-link">Login</RouterLink></Button>
+        <el-button type="info" round><RouterLink to="/login" class="header-right-link">Login</RouterLink></el-button>
         </div>
     </div>
   </header>
