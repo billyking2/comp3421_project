@@ -1,43 +1,60 @@
-
 <template>
   <header class="site-header">
-
-
     <!-- container -->
     <div class="site-header-container">
       <!-- logo -->
-        <div class="logo">Logo</div>
+      <div class="logo">Logo</div>
       <!-- hamburger-button -->
-      <button 
-      class="hamburger-btn"  
-      @click="toggleMenu" >
+      <button class="hamburger-btn" @click="toggleMenu">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
 
+      <!-- nav link -->
+      <nav class="nav-menu" :class="{ 'is-open': isMobileMenuOpen }">
+        <ul>
+          <RouterLink to="/" class="nav-link" @click="closeMenu"
+            >Home</RouterLink
+          >
+        </ul>
+        <ul>
+          <RouterLink to="/book" class="nav-link" @click="closeMenu"
+            >Book</RouterLink
+          >
+        </ul>
+        <ul>
+          <RouterLink to="/about" class="nav-link" @click="closeMenu"
+            >About</RouterLink
+          >
+        </ul>
+        <ul>
+          <RouterLink to="/contact" class="nav-link" @click="closeMenu"
+            >Contact</RouterLink
+          >
+        </ul>
+      </nav>
 
-        <!-- nav link -->
-        <nav class="nav-menu" :class="{ 'is-open': isMobileMenuOpen }">
-          <ul><RouterLink to="/" class="nav-link" @click="closeMenu">Home</RouterLink></ul>
-            <ul><RouterLink to="/book" class="nav-link" @click="closeMenu">Book</RouterLink></ul>
-            <ul><RouterLink to="/about" class="nav-link" @click="closeMenu">About</RouterLink></ul>
-            <ul><RouterLink to="/contact" class="nav-link" @click="closeMenu">Contact</RouterLink></ul>
-        </nav>
-
-        <div class="header-right">
+      <div class="header-right">
         <el-icon :size="20"><Search /></el-icon>
-        <div ><RouterLink to="/shopping-cart" class="header-right-link">Cart</RouterLink></div>
-        <el-button type="info" round><RouterLink to="/login" class="header-right-link">Login</RouterLink></el-button>
+        <div>
+          <RouterLink to="/shoppingcart" class="header-right-link"
+            ><el-icon :size="25"><ShoppingCart /></el-icon></RouterLink
+          >
         </div>
+        <el-button round
+          ><RouterLink to="/signin" class="header-right-link"
+            >SignIn</RouterLink
+          ></el-button
+        >
+      </div>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { RouterLink } from 'vue-router';
-
+import { ref } from "vue";
+import { RouterLink } from "vue-router";
 
 const isMobileMenuOpen = ref(false);
 
@@ -48,11 +65,9 @@ const toggleMenu = () => {
 const closeMenu = () => {
   isMobileMenuOpen.value = false;
 };
-
 </script>
 
 <style scoped>
-
 .site-header {
   width: 100%;
   height: 60px;
@@ -69,7 +84,6 @@ const closeMenu = () => {
   height: 60px;
   padding: 0 2rem;
 }
-
 
 .logo {
   font-weight: 700;
@@ -91,7 +105,6 @@ const closeMenu = () => {
   flex: 1;
   justify-content: center;
   align-items: center;
-
 }
 
 .nav-menu ul {
@@ -99,16 +112,16 @@ const closeMenu = () => {
   align-items: center;
   margin: 0;
   padding: 0 2rem;
-    list-style: none;
-    align-items: center;
-    border-right: 1px solid #191b1a;
+  list-style: none;
+  align-items: center;
+  border-right: 1px solid #191b1a;
 }
 
 .nav-link,
 .header-right-link {
-    cursor: pointer;
-    color: #1a1a1a;
-    text-decoration: none;
+  cursor: pointer;
+  color: #1a1a1a;
+  text-decoration: none;
 }
 
 .nav-menu ul:last-child {
@@ -150,9 +163,9 @@ const closeMenu = () => {
 }
 
 @media (max-width: 768px) {
-    .site-header-container {
-        position: relative;
-    }
+  .site-header-container {
+    position: relative;
+  }
 
   .hamburger-btn {
     display: flex;
@@ -160,7 +173,7 @@ const closeMenu = () => {
     left: 1.5rem;
   }
 
-  .logo{
+  .logo {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -187,11 +200,10 @@ const closeMenu = () => {
     display: flex;
   }
 
-    .header-right {
+  .header-right {
     position: absolute;
     right: 0.5rem;
     min-width: auto;
   }
-  
 }
 </style>

@@ -2,11 +2,11 @@
     <div>
         this is login page
     </div>
-    <LoginForm />
+    <SignInForm />
 </template>
 
 <script setup lang="ts">
-import LoginForm from '../components/common/LoginForm.vue'
+import SignInForm from '../components/common/SignInForm.vue'
 
 
 

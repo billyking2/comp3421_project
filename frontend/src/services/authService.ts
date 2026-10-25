@@ -1,13 +1,25 @@
 import api from "./api";
 
-export async function login(
+export async function signIn(
   username: string,
   password: string
 ) {
-  return api.post("/api/login", {
+  return api.post("/api/auth/signIn", {
     username,
     password,
   });
+}
+
+export async function signUp(
+    username: string,
+    email: string,
+    password: string
+) {
+  return api.post ("/api/auth/signUp", {
+    username,
+    email,
+    password
+  })
 }
 
 export async function getCurrentUser() {
@@ -15,5 +27,5 @@ export async function getCurrentUser() {
 }
 
 export async function logout() {
-  return api.post("/api/logout");
+  return api.post("/api/auth/logout");
 }
