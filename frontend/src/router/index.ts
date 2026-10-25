@@ -26,7 +26,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: () => import('../page/dashboard.vue'),
+    component: () => import('../page/Dashboard.vue'),
     meta: {
       layout: 'dashboard'
     }
