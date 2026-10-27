@@ -22,19 +22,14 @@
       label="Password"
       prop="password"
     >
-              <el-tooltip
-        class="box-item"
-        effect="dark"
-        content="Password must be at least 6 characters"
-        placement="bottom"
-      >
+
       <el-input
         v-model="form.password"
         type="password"
         placeholder="Password"
         show-password
       />
-      </el-tooltip>
+
     </el-form-item>
 
     <el-alert

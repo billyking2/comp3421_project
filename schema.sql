@@ -21,11 +21,17 @@ CREATE TABLE books (
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     price NUMERIC(10, 2) NOT NULL CHECK (price >= 0), 
-    stock_quantity INT NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
-    category_id INT REFERENCES categories(category_id) ON DELETE SET NULL
+    stock_quantity INT NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0)
 );
 
--- 4. Book image 
+-- 4. book can belong to multiple categories
+CREATE TABLE book_categories (
+    book_id INT REFERENCES books(book_id) ON DELETE CASCADE,
+    category_id INT REFERENCES categories(category_id) ON DELETE CASCADE,
+    PRIMARY KEY (book_id, category_id)
+);
+
+-- 5. Book image 
 CREATE TABLE book_images (
     image_id SERIAL PRIMARY KEY,
     book_id INT REFERENCES books(book_id) ON DELETE CASCADE,
@@ -34,7 +40,7 @@ CREATE TABLE book_images (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 5. Shopping Cart Table (Persistent cart items per user)
+-- 6. Shopping Cart Table (Persistent cart items per user)
 CREATE TABLE cart_items (
     cart_item_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE CASCADE,
@@ -43,7 +49,7 @@ CREATE TABLE cart_items (
     UNIQUE(user_id, book_id)
 );
 
--- 6. Orders Table (Checkout and Fulfillment Status)
+-- 7. Orders Table (Checkout and Fulfillment Status)
 CREATE TABLE orders (
     order_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE SET NULL,
@@ -52,7 +58,16 @@ CREATE TABLE orders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- 7. Indexes for Performance & Search Optimization
+-- 8. order item
+CREATE TABLE order_items (
+    order_item_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES orders(order_id) ON DELETE CASCADE,
+    book_id INT REFERENCES books(book_id) ON DELETE SET NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    unit_price NUMERIC(10,2) NOT NULL CHECK (unit_price >= 0)
+);
+
+-- 9. Indexes for Performance & Search Optimization
 CREATE INDEX idx_books_title ON books(title);
 CREATE INDEX idx_books_author ON books(author);
 CREATE INDEX idx_orders_user ON orders(user_id);

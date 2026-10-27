@@ -69,6 +69,11 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
 
+  if (to.path === "/signin" && userStore.role === "admin") {
+    next("/dashboard");
+    return;
+  }
+
   if (to.path === "/dashboard" && userStore.role !== "admin") {
     next("/");
     return;

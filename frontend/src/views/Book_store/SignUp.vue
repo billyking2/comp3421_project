@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts">
-import SignUpForm from '../components/common/SignUpForm.vue';
+import SignUpForm from '../../components/common/SignUpForm.vue';
 
 </script>
 

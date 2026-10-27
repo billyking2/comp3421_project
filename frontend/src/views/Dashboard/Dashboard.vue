@@ -39,15 +39,16 @@ const pageMap = {
   member: Member,
 }
 
-const currentComponent = computed(
-  () =>
-    pageMap[
-      dashboardStore.activeMenu as keyof typeof pageMap
-    ]
-)
+const currentComponent = computed(() => {
+  // Read the selected menu key from the store.
+  const activeMenu = dashboardStore.activeMenu as keyof typeof pageMap
+
+  // Look up and return the Vue component for that menu.
+  return pageMap[activeMenu]
+})
 
 </script>
 
-<style scoped>
+<style >
 
 </style>
