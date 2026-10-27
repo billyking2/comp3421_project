@@ -21,21 +21,21 @@ const routes = [
           path: '',
           name: 'home',
           component: () =>
-            import('../page/Home.vue'),
+            import('../views/Book_store/Home.vue'),
         },
 
         {
           path: 'signin',
           name: 'signin',
           component: () =>
-            import('../page/SignIn.vue'),
+            import('../views/Book_store/SignIn.vue'),
         },
 
         ...pages.map((page) => ({
           path: page.toLowerCase(),
           name: page.toLowerCase(),
           component: () =>
-            import(`../page/${page}.vue`),
+            import(`../views/Book_store/${page}.vue`),
         })),
       ],
     },
@@ -50,7 +50,7 @@ const routes = [
           path: '',
           name: 'dashboard',
           component: () =>
-            import('../page/Dashboard.vue'),
+            import('../views/Dashboard/Dashboard.vue'),
         },
       ],
     },

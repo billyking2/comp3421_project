@@ -1,26 +1,26 @@
 <template>
-     <aside class="sidebar" :class="{ collapsed , 'mobile-open':mobileOpen }">
+     <aside class="sidebar" :class="{ collapsed: dashboardStore.collapsed , 'mobile-open':mobileOpen }">
     <div class="brand">
-        <div class="logo"></div>
-        <div v-if="!collapsed" class="description"></div>
+        <div class="logo"><RouterLink to="/"><p>gay</p></RouterLink></div>
+        <div v-if="!dashboardStore.collapsed" class="description"></div>
     </div>
     <nav>
-        <button v-for="item in menus" :key="item.key" :class="{active:active === item.key}">
+        <button v-for="item in menus" :key="item.key" :class="{active: dashboardStore.activeMenu === item.key }" @click="handleMenuClick(item.key)">
             <el-icon><component :is="item.icon"></component></el-icon>
-            <span v-if="!collapsed" >{{ item.label }}</span>
+            <span v-if="!dashboardStore.collapsed" >{{ item.label }}</span>
         </button>
     </nav>    
-    <button class="collapse-btn" @click="handlecollapsed">
-        <el-icon><DArrowLeft v-if="!collapsed"/><DArrowRight v-else/></el-icon>
+    <button class="collapse-btn" @click="handleCollapsed">
+        <el-icon><DArrowLeft v-if="!dashboardStore.collapsed"/><DArrowRight v-else/></el-icon>
     </button>
     </aside>
 </template>
+
 <script setup lang="ts">
 import { DArrowLeft } from '@element-plus/icons-vue';
 import { ref,onMounted,computed } from 'vue';
+import { useDashboardStore } from '../../store/useDashboardStore'
 
-const active = ref("home")
-const collapsed = ref(false)
 const mobileOpen = ref(false)
 
 const menus = [
@@ -32,15 +32,19 @@ const menus = [
        
 ]
 
-const emit = defineEmits<{
-  'update:collapsed': [boolean]
-}>()
+const dashboardStore =
+  useDashboardStore()
 
+  const handleCollapsed = () => {
+  dashboardStore.toggleCollapsed()
+}
 
-const handlecollapsed = () => {
-    collapsed.value = !collapsed
-    emit('update:collapsed', collapsed.value);
-};
+const handleMenuClick = (
+  key: string,
+) => {
+  dashboardStore.setActiveMenu(key)
+}
+
 </script>
 
 <style>

@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from "../store/useUserStore";
+import { useUserStore } from "../../store/useUserStore";
 
 const userId = useUserStore().userId;
 
