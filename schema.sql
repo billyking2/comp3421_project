@@ -4,7 +4,7 @@ CREATE TABLE users (
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(20) DEFAULT 'customer' CHECK (role IN ('customer', 'admin')),
+    role VARCHAR(20) DEFAULT 'customer' CHECK (role IN ('customer', 'staff', 'admin')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -72,3 +72,96 @@ CREATE INDEX idx_books_title ON books(title);
 CREATE INDEX idx_books_author ON books(author);
 CREATE INDEX idx_orders_user ON orders(user_id);
 CREATE INDEX idx_cart_user ON cart_items(user_id);
+
+
+-- 10.DCL
+
+-- ADMIN ROLE
+CREATE ROLE admin_role;
+
+GRANT CONNECT
+ON DATABASE comp3421_project_db
+TO admin_role;
+
+GRANT USAGE
+ON SCHEMA public
+TO admin_role;
+
+GRANT ALL PRIVILEGES
+ON ALL TABLES IN SCHEMA public
+TO admin_role;
+
+GRANT ALL PRIVILEGES
+ON ALL SEQUENCES IN SCHEMA public
+TO admin_role;
+
+--STAFF ROLE
+CREATE ROLE staff_role;
+
+GRANT CONNECT
+ON DATABASE comp3421_project_db
+TO staff_role;
+
+GRANT USAGE
+ON SCHEMA public
+TO staff_role;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+ON
+    categories,
+    books,
+    book_images,
+    cart_items,
+    book_categories,
+    orders,
+    order_items
+TO staff_role;
+
+GRANT SELECT
+ON users
+TO staff_role;
+
+-- VIEWER ROLE
+CREATE ROLE viewer_role;
+
+GRANT CONNECT
+ON DATABASE comp3421_project_db
+TO viewer_role;
+
+GRANT USAGE
+ON SCHEMA public
+TO viewer_role;
+
+GRANT SELECT
+ON
+    cart_items,
+    orders,
+    order_items
+TO viewer_role;
+
+-- Create User with Role
+
+CREATE USER admin
+WITH PASSWORD 'admin123'
+NOSUPERUSER
+NOCREATEDB
+NOCREATEROLE;
+
+GRANT admin_role TO admin;
+
+
+CREATE USER staff
+WITH PASSWORD 'staff123'
+NOSUPERUSER
+NOCREATEDB
+NOCREATEROLE;
+
+GRANT staff_role TO staff;
+
+CREATE USER viewer
+WITH PASSWORD 'viewer123'
+NOSUPERUSER
+NOCREATEDB
+NOCREATEROLE;
+
+GRANT viewer_role TO viewer;
