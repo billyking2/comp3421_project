@@ -7,4 +7,5 @@ const routersEntry = Router();
 routersEntry.use('/auth', signIn);
 routersEntry.use('/auth', signUp);
 
+
 export default routersEntry;

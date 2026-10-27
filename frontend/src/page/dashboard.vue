@@ -19,6 +19,7 @@ const handleSidebar = (value: boolean) => {
   collapsed.value = value
 }
 
+
 </script>
 
 <style scoped>

@@ -11,37 +11,54 @@ const pages = [
 ];
 
 const routes = [
-  {
-    path: "/",
-    name: "home",
-    component: () => import("../page/Home.vue"),
-  },
+ {
+      path: '/',
+      component: () =>
+        import('../layout/DefaultLayout.vue'),
 
-  {
-    path: "/signin",
-    name: "signin",
-    component: () => import("../page/SignIn.vue"),
-  },
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () =>
+            import('../page/Home.vue'),
+        },
 
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: () => import('../page/Dashboard.vue'),
-    meta: {
-      layout: 'dashboard'
-    }
-  },
+        {
+          path: 'signin',
+          name: 'signin',
+          component: () =>
+            import('../page/SignIn.vue'),
+        },
 
-  ...pages.map((page) => ({
-    path: `/${page.toLowerCase()}`,
-    name: page.toLowerCase(),
-    component: () => import(`../page/${page}.vue`),
-  })),
+        ...pages.map((page) => ({
+          path: page.toLowerCase(),
+          name: page.toLowerCase(),
+          component: () =>
+            import(`../page/${page}.vue`),
+        })),
+      ],
+    },
 
-  {
-    path: "/:pathMatch(.*)*",
-    redirect: "/notexit",
-  },
+    {
+      path: '/dashboard',
+      component: () =>
+        import('../layout/DashboardLayout.vue'),
+
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: () =>
+            import('../page/Dashboard.vue'),
+        },
+      ],
+    },
+
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/notexit',
+    },
 ];
 
 const router = createRouter({
@@ -53,7 +70,7 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore();
 
   if (to.path === "/dashboard" && userStore.role !== "admin") {
-    next("/home");
+    next("/");
     return;
   }
 

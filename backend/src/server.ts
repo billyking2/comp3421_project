@@ -3,11 +3,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import routersEntry from './routes';
 import pool from './config/db';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cookieParser());
 
 app.use(
   cors({
@@ -25,7 +28,6 @@ app.get('/api/health', async (req, res) => {
       time: result.rows[0].now 
     });
   } catch (err: any) {
-    console.error('❌ Database connection error details:', err.message);
     res.status(500).json({ error: 'Database connection failed', details: err.message });
   }
 });

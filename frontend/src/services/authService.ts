@@ -23,7 +23,7 @@ export async function signUp(
 }
 
 export async function getCurrentUser() {
-  return api.get("/api/me");
+  return api.get("/api/auth/me");
 }
 
 export async function logout() {

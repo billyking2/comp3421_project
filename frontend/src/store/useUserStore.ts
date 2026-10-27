@@ -5,6 +5,7 @@ export const useUserStore = defineStore('user', {
     userId: null as string | null,
     username: null as string | null,
     role: null as string | null,
+    initialized: false,
   }),
 
   actions: {
@@ -23,5 +24,10 @@ export const useUserStore = defineStore('user', {
       this.username = null;
       this.role = null;
     },
+
+    setInitialized() {
+      this.initialized = true;
+    },
+
   },
 });

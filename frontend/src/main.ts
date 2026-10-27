@@ -5,6 +5,8 @@ import { createPinia } from 'pinia';
 import types from './types/index'
 import router from './router/index'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import { useUserStore } from './store/useUserStore.ts';
+import { getCurrentUser } from './services/authService.ts';
 
 const app = createApp(App)
 const pinia = createPinia();
@@ -14,7 +16,23 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 
-app.use(router);
+
 app.use(pinia);
 app.use(types)
+
+const userStore = useUserStore()
+
+
+try {
+  const { data } = await getCurrentUser()
+
+  userStore.setUser(data)
+
+} catch {
+  userStore.logout()
+} finally {
+  userStore.setInitialized()
+}
+
+app.use(router);
 app.mount('#app')
