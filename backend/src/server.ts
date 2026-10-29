@@ -16,22 +16,21 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
 app.get('/api/health', async (req, res) => {
   try {
     const result = await pool.query('SELECT NOW()');
-    res.json({ 
-      message: 'Backend server and PostgreSQL are connected!', 
-      time: result.rows[0].now 
+    res.json({
+      message: 'Backend server and PostgreSQL are connected!',
+      time: result.rows[0].now,
     });
-  } catch (err: any) {
+  } catch (err: Error) {
     res.status(500).json({ error: 'Database connection failed', details: err.message });
   }
 });
-
 
 app.use('/api', routersEntry);
 

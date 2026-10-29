@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import axios from 'axios'
 
 export function useAuthStatus() {
   const isLoading = ref(false)
@@ -12,13 +13,15 @@ export function useAuthStatus() {
   }
 }
 
-export function getErrorMessage(err: any) {
-  if (err.response) {
-    return err.response.data.error
-  }
+export function getErrorMessage(err: unknown) {
+  if (axios.isAxiosError(err)) {
+    if (err.response) {
+      return err.response.data.error
+    }
 
-  if (err.request) {
-    return 'Cannot connect to server'
+    if (err.request) {
+      return 'Cannot connect to server'
+    }
   }
 
   return 'Unexpected error'

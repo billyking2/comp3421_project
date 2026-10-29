@@ -1,10 +1,7 @@
 import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
 
-export function requireAuth(
-  req: any,
-  res: any,
-  next: any
-) {
+export function requireAuth(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies.token;
 
   if (!token) {
@@ -14,10 +11,7 @@ export function requireAuth(
   }
 
   try {
-    const payload = jwt.verify(
-      token,
-      process.env.JWT_SECRET!
-    );
+    const payload = jwt.verify(token, process.env.JWT_SECRET!);
 
     req.user = payload;
 

@@ -7,7 +7,6 @@ router.get('/getToday', async (req, res) => {
   try {
     const threshold = Number(req.query.emergencyInventory) || 5;
 
-
     const [
       todayOrders,
       yesterdayOrders,
@@ -55,12 +54,13 @@ router.get('/getToday', async (req, res) => {
         WHERE DATE(created_at) = CURRENT_DATE - INTERVAL '1 day'
       `),
 
-      pool.query(`
+      pool.query(
+        `
         SELECT COUNT(*) AS count
         FROM books
         WHERE stock_quantity < $1
         `,
-        [threshold]
+        [threshold],
       ),
     ]);
 
@@ -77,9 +77,7 @@ router.get('/getToday', async (req, res) => {
         members: Number(yesterdayMembers.rows[0].count),
       },
 
-      emergencyInventory: Number(
-        emergencyInventory.rows[0].count
-      ),
+      emergencyInventory: Number(emergencyInventory.rows[0].count),
     });
   } catch (error) {
     console.error(error);

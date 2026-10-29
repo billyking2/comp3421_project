@@ -16,11 +16,11 @@ router.post('/signUp', async (req: Request, res: Response): Promise<void> => {
     }
 
     // 2. Check if user already exists
-    const existingUser = await pool.query(
-      'SELECT * FROM users WHERE email = $1 OR username = $2', 
-      [email, username]
-    );
-    
+    const existingUser = await pool.query('SELECT * FROM users WHERE email = $1 OR username = $2', [
+      email,
+      username,
+    ]);
+
     if (existingUser.rows.length > 0) {
       res.status(400).json({ error: 'Username or email already exists' });
       return;
@@ -43,9 +43,9 @@ router.post('/signUp', async (req: Request, res: Response): Promise<void> => {
 
     res.status(201).json({
       message: 'User registered successfully!',
-      user: newResult.rows[0]
+      user: newResult.rows[0],
     });
-  } catch (err: any) {
+  } catch (err: Error) {
     console.error('Registration error:', err.message);
     res.status(500).json({ error: 'Server error during registration' });
   }

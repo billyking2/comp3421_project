@@ -11,5 +11,4 @@ const pool = new Pool({
   port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
 });
 
-
-export default pool; 
+export default pool;

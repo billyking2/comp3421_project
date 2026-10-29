@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { DArrowLeft } from '@element-plus/icons-vue';
-import { ref,onMounted,computed } from 'vue';
+import { ref } from 'vue';
 import { useDashboardStore } from '../../store/useDashboardStore'
 
 const mobileOpen = ref(false)
