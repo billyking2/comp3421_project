@@ -29,7 +29,7 @@ try {
   userStore.setUser(data)
 
 } catch {
-  userStore.logout()
+  userStore.signOut()
 } finally {
   userStore.setInitialized()
 }

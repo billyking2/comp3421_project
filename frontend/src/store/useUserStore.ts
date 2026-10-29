@@ -17,12 +17,14 @@ export const useUserStore = defineStore('user', {
       this.userId = user.userId;
       this.username = user.username;
       this.role = user.role;
+      this.initialized = true;
     },
 
-    logout() {
+    signOut() {
       this.userId = null;
       this.username = null;
       this.role = null;
+      this.initialized =false;
     },
 
     setInitialized() {

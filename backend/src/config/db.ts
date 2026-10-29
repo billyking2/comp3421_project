@@ -11,8 +11,5 @@ const pool = new Pool({
   port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
 });
 
-pool.on('connect', () => {
-  console.log('Connected to the PostgreSQL database successfully!');
-});
 
 export default pool; 

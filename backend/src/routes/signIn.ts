@@ -71,6 +71,7 @@ router.post("/signIn", async (req: Request, res: Response): Promise<void> => {
       secure: process.env.COOKIE_SECURE === "true" ,
       sameSite: "lax",
       maxAge: 24 * 60 * 60 * 1000,
+      path: "/",
     });
 
     res.status(200).json({

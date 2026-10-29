@@ -42,11 +42,57 @@
             ><el-icon :size="25"><ShoppingCart /></el-icon></RouterLink
           >
         </div>
-        <el-button round
-          ><RouterLink to="/signin" class="header-right-link"
-            >SignIn</RouterLink
-          ></el-button
+        <template v-if="!userStore.initialized">
+  <RouterLink
+    to="/signIn"
+    class="header-right-link"
+  >
+    Sign In
+  </RouterLink>
+</template>
+
+<template v-else>
+  <el-dropdown>
+    <div class = user-menu-box>
+    <span class="user-menu">
+      {{ userStore.username }}
+    </span>
+    </div>
+    
+    <template #dropdown>
+      <el-dropdown-menu>
+
+        <el-dropdown-item>
+          <RouterLink to="/profile">
+            Profile
+          </RouterLink>
+        </el-dropdown-item>
+
+        <el-dropdown-item>
+          <RouterLink to="/orders">
+            My Orders
+          </RouterLink>
+        </el-dropdown-item>
+
+        <el-dropdown-item
+          v-if="['admin'].includes(userStore.role ?? '')"
         >
+          <RouterLink to="/dashboard">
+            Dashboard
+          </RouterLink>
+        </el-dropdown-item>
+
+        <el-dropdown-item
+          divided
+          @click="SignOut"
+        >
+          Sign Out
+        </el-dropdown-item>
+
+      </el-dropdown-menu>
+    </template>
+  </el-dropdown>
+</template>
       </div>
     </div>
   </header>
@@ -55,8 +101,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { RouterLink } from "vue-router";
+import { useUserStore } from "../../store/useUserStore";
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const isMobileMenuOpen = ref(false);
+const userStore = useUserStore();
+
+async function SignOut(){
+  await useUserStore().signOut();
+  router.push('/');
+};
 
 const toggleMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
@@ -65,6 +120,8 @@ const toggleMenu = () => {
 const closeMenu = () => {
   isMobileMenuOpen.value = false;
 };
+
+
 </script>
 
 <style scoped>

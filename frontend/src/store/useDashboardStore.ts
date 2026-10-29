@@ -13,7 +13,6 @@ export const useDashboardStore = defineStore(
         this.activeMenu = menu
       },
 
-
       toggleCollapsed() {
         this.collapsed = !this.collapsed
       },

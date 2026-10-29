@@ -6,7 +6,6 @@ const pages = [
   "Book",
   "Contact",
   "shoppingCart",
-  "NotExit",
   "SignUp",
 ];
 
@@ -56,6 +55,11 @@ const routes = [
     },
 
     {
+      path: '/notexit',
+      name: 'notexit',
+      component: () => import('../views/NotExit.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       redirect: '/notexit',
     },
@@ -66,20 +70,16 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const userStore = useUserStore();
 
   if (to.path === "/signin" && userStore.role === "admin") {
-    next("/dashboard");
-    return;
+    return "/dashboard";
   }
 
   if (to.path === "/dashboard" && userStore.role !== "admin") {
-    next("/");
-    return;
+    return "/";
   }
-
-  next();
 });
 
 export default router;
