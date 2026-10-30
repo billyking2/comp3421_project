@@ -2,16 +2,39 @@ import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import pool from '../config/db';
 import jwt from 'jsonwebtoken';
-import { requireAuth } from '../controllers/requireAuth';
 
 const router = Router();
 
-router.get('/me', requireAuth, (req: Request, res) => {
-  res.status(200).json({
-    userId: req.user.userId,
-    username: req.user.username,
-    role: req.user.role,
-  });
+router.get('/me', (req: Request, res: Response) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    res.status(200).json({ authenticated: false });
+    return;
+  }
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET!);
+    if (typeof payload === 'string') {
+      res.status(200).json({ authenticated: false });
+      return;
+    }
+
+    res.status(200).json({
+      authenticated: true,
+      userId: payload.userId,
+      username: payload.username,
+      role: payload.role,
+    });
+  } catch (error) {
+    if (error instanceof jwt.JsonWebTokenError) {
+      res.status(200).json({ authenticated: false });
+      return;
+    }
+
+    console.error('Current user lookup failed:', error);
+    res.status(500).json({ error: 'Failed to check authentication status' });
+  }
 });
 
 // Login Route

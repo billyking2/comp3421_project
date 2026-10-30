@@ -26,9 +26,14 @@ const userStore = useUserStore()
 try {
   const { data } = await getCurrentUser()
 
-  userStore.setUser(data)
+  if (data.authenticated) {
+    userStore.setUser(data)
+  } else {
+    userStore.signOut()
+  }
 
-} catch {
+} catch (error) {
+  console.error('Failed to check authentication status:', error)
   userStore.signOut()
 } finally {
   userStore.setInitialized()

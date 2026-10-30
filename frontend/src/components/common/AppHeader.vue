@@ -42,7 +42,7 @@
             ><el-icon :size="25"><ShoppingCart /></el-icon></RouterLink
           >
         </div>
-        <template v-if="!userStore.initialized">
+        <template v-if="!userStore.userId">
   <RouterLink
     to="/signIn"
     class="header-right-link"
@@ -103,14 +103,22 @@ import { ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useUserStore } from "../../store/useUserStore";
 import { useRouter } from 'vue-router';
+import { signOut as signOutService } from "../../services/authService";
+import { getErrorMessage } from "../../utils/authStatus";
+import { ElMessage } from "element-plus";
 
 const router = useRouter();
 const isMobileMenuOpen = ref(false);
 const userStore = useUserStore();
 
 async function SignOut(){
-  await useUserStore().signOut();
-  router.push('/');
+  try {
+    await signOutService();
+    userStore.signOut();
+    await router.push('/');
+  } catch (err) {
+    ElMessage.error(`Sign out failed: ${getErrorMessage(err)}`);
+  }
 };
 
 const toggleMenu = () => {

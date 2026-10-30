@@ -9,3 +9,13 @@ export async function getToday(
     },
   });
 }
+
+export async function getBook(
+  threshold: number = 5
+) {
+  return api.get("/api/get/getBook", {
+    params: {
+      threshold,
+    },
+  });
+}

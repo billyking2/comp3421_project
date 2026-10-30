@@ -5,7 +5,7 @@ const router = Router();
 
 router.get('/getToday', async (req, res) => {
   try {
-    const threshold = Number(req.query.emergencyInventory) || 5;
+    const threshold = Number(req.query.threshold) || 5;
 
     const [
       todayOrders,
