@@ -1,7 +1,7 @@
 <template>
      <aside class="sidebar" :class="{ collapsed: dashboardStore.collapsed , 'mobile-open':mobileOpen }">
     <div class="brand">
-        <div class="logo"><RouterLink to="/"><p>gay</p></RouterLink></div>
+        <div class="logo"><RouterLink to="/"><p>Back To Home Page</p></RouterLink></div>
         <div v-if="!dashboardStore.collapsed" class="description"></div>
     </div>
     <nav>

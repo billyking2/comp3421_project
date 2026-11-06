@@ -1,15 +1,7 @@
 import { defineStore } from 'pinia';
-import { getBook } from '../services/dashboardData';
+import { getBook, type DashboardBookData } from '../services/dashboardData';
 
-export interface BookData {
-  book_id: number;
-  title: string;
-  author: string;
-  price: number;
-  stock_quantity: number;
-  image_url: string | null;
-  categories: string;
-}
+export type BookData = DashboardBookData;
 
 export const useDashboardDataBookStore = defineStore(
   'dashboardDataBook',
