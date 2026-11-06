@@ -39,6 +39,25 @@ export interface DashboardOrder {
   items: DashboardOrderItem[];
 }
 
+export interface SalesAnalytics {
+  summary: {
+    total_orders: number;
+    revenue: number;
+    average_order_value: number;
+  };
+  monthlySales: {
+    month: string;
+    revenue: number;
+    order_count: number;
+  }[];
+  bestSellingBooks: {
+    book_id: number | null;
+    title: string;
+    units_sold: number;
+    revenue: number;
+  }[];
+}
+
 export async function getToday(
   threshold: number = 5
 ) {
@@ -77,4 +96,8 @@ export async function getUsers() {
 
 export async function getOrders() {
   return api.get<DashboardOrder[]>("/api/get/getOrders");
+}
+
+export async function getSales() {
+  return api.get<SalesAnalytics>("/api/get/getSales");
 }

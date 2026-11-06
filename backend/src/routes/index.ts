@@ -7,6 +7,7 @@ import getBook from './getBook.ts';
 import changeBook from './changeBook.ts';
 import getUsers from './getUsers.ts';
 import getOrders from './getOrders.ts';
+import getSales from './getSales.ts';
 
 const routersEntry = Router();
 
@@ -18,6 +19,7 @@ routersEntry.use('/get', getToday);
 routersEntry.use('/get', getBook);
 routersEntry.use('/get', getUsers);
 routersEntry.use('/get', getOrders);
+routersEntry.use('/get', getSales);
 routersEntry.use('/post', changeBook);
 
 export default routersEntry;
