@@ -1,5 +1,10 @@
 <template>
   <div class="inventory-page">
+    <div>
+      <h1>Inventory</h1>
+      <p>Manage book stock, pricing, and low-stock levels.</p>
+    </div>
+
     <el-row
       :gutter="20"
       class="summary-row"
@@ -43,6 +48,7 @@
     <el-card
       shadow="never"
       class="inventory-toolbar"
+      style="margin: 20px auto 5px auto;"
     >
       <el-input
         v-model="search"
@@ -78,7 +84,7 @@
       :data="filteredBooks"
       :row-class-name="tableRowClassName"
       border
-      style="width: 100%"
+      style="width: 100%;"
     >
       <el-table-column
         label="Photo"
@@ -273,78 +279,3 @@ async function changeBookByRow(row: {
   }
 }
 </script>
-
-<style scoped>
-.inventory-page {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.summary-row {
-  margin-bottom: 10px;
-}
-
-.inventory-toolbar :deep(.el-card__body) {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.inventory-search {
-  max-width: 360px;
-}
-
-.threshold-control {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.threshold-description {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.4;
-}
-
-.threshold-description label {
-  font-weight: 600;
-}
-
-.threshold-description span {
-  color: #909399;
-  font-size: 12px;
-}
-
-.summary-title {
-  font-size: 14px;
-  color: #909399;
-}
-
-.summary-value {
-  margin-top: 10px;
-  font-size: 32px;
-  font-weight: bold;
-}
-
-.danger {
-  color: #f56c6c;
-}
-
-@media (max-width: 768px) {
-  .inventory-toolbar :deep(.el-card__body),
-  .threshold-control {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .inventory-search {
-    max-width: none;
-  }
-}
-
-:deep(.danger-row) {
-  --el-table-tr-bg-color: #fef0f0;
-}
-</style>

@@ -194,7 +194,7 @@ const closeMenu = () => {
 }
 
 .nav-link:hover,
-.nav-link.router-link-active {
+.nav-link.router-link-exact-active {
   color: #42b883;
 }
 

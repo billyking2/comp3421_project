@@ -86,15 +86,18 @@ const monthlySales = computed(() => salesStore.data?.monthlySales ?? []);
 const bestSellingBooks = computed(() => salesStore.data?.bestSellingBooks ?? []);
 
 const monthlySalesOption = computed<EChartsOption>(() => ({
+  color: ['#8a6347'],
   tooltip: { trigger: 'axis' },
   xAxis: {
     type: 'category',
     boundaryGap: false,
     data: monthlySales.value.map((month) => formatMonth(month.month)),
+    axisLabel: { color: '#817366' },
   },
   yAxis: {
     type: 'value',
     name: 'Revenue ($)',
+    axisLabel: { color: '#817366' },
   },
   series: [
     {
@@ -108,16 +111,19 @@ const monthlySalesOption = computed<EChartsOption>(() => ({
 }));
 
 const bestSellingOption = computed<EChartsOption>(() => ({
+  color: ['#78816a'],
   tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
   grid: { left: 140, right: 24, top: 16, bottom: 24 },
   xAxis: {
     type: 'value',
     name: 'Units sold',
+    axisLabel: { color: '#817366' },
   },
   yAxis: {
     type: 'category',
     inverse: true,
     data: bestSellingBooks.value.map((book) => book.title),
+    axisLabel: { color: '#665748' },
   },
   series: [
     {

@@ -16,6 +16,7 @@
 </template>
 
 <script setup lang="ts">
+import '../../assets/css/dashboard.css';
 import { computed } from 'vue'
 import Sidebar from '../../components/dashboard/sidebar.vue';
 import Header from '../../components/dashboard/header.vue'
