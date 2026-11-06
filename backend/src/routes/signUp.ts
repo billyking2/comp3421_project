@@ -45,8 +45,8 @@ router.post('/signUp', async (req: Request, res: Response): Promise<void> => {
       message: 'User registered successfully!',
       user: newResult.rows[0],
     });
-  } catch (err: Error) {
-    console.error('Registration error:', err.message);
+  } catch (err: unknown ) {
+    console.error('Registration error:', err instanceof Error ? err.message : err);
     res.status(500).json({ error: 'Server error during registration' });
   }
 });

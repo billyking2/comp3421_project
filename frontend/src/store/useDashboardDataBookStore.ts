@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getBook } from '../services/getDashboardData';
+import { getBook } from '../services/dashboardData';
 
 export interface BookData {
   book_id: number;

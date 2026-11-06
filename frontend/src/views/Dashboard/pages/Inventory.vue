@@ -175,7 +175,7 @@
           <el-button
             type="primary"
             size="small"
-            @click="saveBook(row)"
+            @click="changeBookByRow(row)"
           >
             Save
           </el-button>
@@ -188,10 +188,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus';
-import api from '../../../services/api';
 import { useDashboardDataBookStore } from '../../../store/useDashboardDataBookStore';
 import { useTodayDataStore } from '../../../store/useTodayDataStore';
-
+import { changeBook } from '../../../services/dashboardData';
 const bookStore = useDashboardDataBookStore();
 const EmergencyThreshold= ref(bookStore.emergencyThreshold);
 const search = ref('');
@@ -258,23 +257,13 @@ function setEmergencyThreshold(){
   todayDataStore.setEmergencyThreshold(EmergencyThreshold.value);
 }
 
-async function saveBook(row: {
+async function changeBookByRow(row: {
   book_id: number;
   price: number;
   stock_quantity: number;
 }) {
   try {
-    await api.put(
-      `/api/books/${row.book_id}`,
-      {
-        price: row.price,
-        stock_quantity: row.stock_quantity,
-      }
-    );
-
-    ElMessage.success(
-      'Book updated successfully'
-    );
+    await changeBook(row.book_id,row.price,row.stock_quantity);
   } catch (error) {
     console.error(error);
 

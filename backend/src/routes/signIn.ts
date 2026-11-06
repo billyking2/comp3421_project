@@ -95,8 +95,8 @@ router.post('/signIn', async (req: Request, res: Response): Promise<void> => {
       username: user.username,
       role: user.role,
     });
-  } catch (err: Error) {
-    console.error('Login error:', err.message);
+  } catch (err: unknown ) {
+    console.error('Login error:', err instanceof Error ? err.message : err);
     res.status(500).json({ error: 'Server error during login' });
   }
 });

@@ -27,7 +27,7 @@ app.get('/api/health', async (req, res) => {
       message: 'Backend server and PostgreSQL are connected!',
       time: result.rows[0].now,
     });
-  } catch (err: Error) {
+  } catch (err: error ) {
     res.status(500).json({ error: 'Database connection failed', details: err.message });
   }
 });

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getToday } from "../services/getDashboardData";
+import { getToday } from "../services/dashboardData";
 
 export interface TodayData {
   today: {

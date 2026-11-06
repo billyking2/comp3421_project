@@ -19,3 +19,15 @@ export async function getBook(
     },
   });
 }
+
+export async function changeBook(
+  bookId: number,
+  price: number,
+  stock_quantity: number,
+) {
+    return api.post("/api/post/changeBook",{
+        bookId,
+        price,
+        stock_quantity,
+    });
+}

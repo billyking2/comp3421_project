@@ -13,7 +13,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET!);
 
-    req.user = payload;
+    (req as Request & { user: typeof payload }).user = payload;
 
     next();
   } catch {
