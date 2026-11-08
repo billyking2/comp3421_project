@@ -71,7 +71,7 @@ export async function getToday(
 export async function getBook(
   threshold: number = 5
 ) {
-  return api.get("/api/get/getBook", {
+  return api.get<DashboardBookData[]>("/api/get/getBook", {
     params: {
       threshold,
     },

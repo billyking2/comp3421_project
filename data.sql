@@ -128,7 +128,42 @@ VALUES
 (17, 'Charlotte''s Web', 'E. B. White', 88.00, 24),
 (18, 'The Little Prince', 'Antoine de Saint-Exupery', 98.00, 26),
 (19, 'Matilda', 'Roald Dahl', 108.00, 19),
-(20, 'Charlie and the Chocolate Factory', 'Roald Dahl', 102.00, 21);
+(20, 'Charlie and the Chocolate Factory', 'Roald Dahl', 102.00, 21),
+
+(21,'三體', '劉慈欣', 98.00, 50),
+(22,'活著', '余華', 78.00, 40),
+(23,'解憂雜貨店', '東野圭吾', 88.00, 35),
+(24,'射鵰英雄傳', '金庸', 120.00, 25),
+(25,'Q版特工 x 嘉薰醫生：真生再見', ' 梁科慶,陳嘉薰', 108.00, 30);
+
+-- Cover images are served from frontend/public/images.
+INSERT INTO book_images (book_id, image_url, is_primary)
+VALUES
+(1, '/images/1-primary.webp', TRUE),
+(2, '/images/2-primary.jpg', TRUE),
+(3, '/images/3-primary.webp', TRUE),
+(4, '/images/4-primary.jpg', TRUE),
+(5, '/images/5-primary.webp', TRUE),
+(6, '/images/6-primary.webp', TRUE),
+(7, '/images/7-primary.webp', TRUE),
+(8, '/images/8-primary.jpg', TRUE),
+(9, '/images/9-primary.webp', TRUE),
+(10, '/images/10-primary.jpg', TRUE),
+(11, '/images/11-primary.webp', TRUE),
+(12, '/images/12-primary.jpg', TRUE),
+(13, '/images/13-primary.jpg', TRUE),
+(14, '/images/14-primary.jpg', TRUE),
+(15, '/images/15-primary.jpg', TRUE),
+(16, '/images/16-primary.jpg', TRUE),
+(17, '/images/17-primary.jpg', TRUE),
+(18, '/images/18-primary.jpg', TRUE),
+(19, '/images/19-primary.jpg', TRUE),
+(20, '/images/20-primary.jpg', TRUE),
+(21, '/images/21-primary.jpg', TRUE),
+(22, '/images/22-primary.jpg', TRUE),
+(23, '/images/23-primary.jpg', TRUE),
+(24, '/images/24-primary.jpg', TRUE),
+(25, '/images/25-primary.jpg', TRUE);
 
 INSERT INTO book_categories (book_id, category_id)
 VALUES
@@ -216,7 +251,27 @@ VALUES
 -- Charlie and the Chocolate Factory
 (20, 1),
 (20, 3),
-(20, 8);
+(20, 8),
+
+-- 三體
+(21, 2),
+(21, 3),
+
+-- 活著
+(22, 2),
+(22, 3),
+
+-- 解憂雜貨店
+(23, 2),
+(23, 3),
+
+-- 射鵰英雄傳
+(24, 2),
+(24, 3),
+
+-- Q版特工 x 嘉薰醫生：真生再見
+(25, 2),
+(25, 3);
 
 INSERT INTO cart_items (
     cart_item_id,
