@@ -134,7 +134,9 @@ VALUES
 (22,'活著', '余華', 78.00, 40),
 (23,'解憂雜貨店', '東野圭吾', 88.00, 35),
 (24,'射鵰英雄傳', '金庸', 120.00, 25),
-(25,'Q版特工 x 嘉薰醫生：真生再見', ' 梁科慶,陳嘉薰', 108.00, 30);
+(25,'Q版特工 x 嘉薰醫生：真生再見', ' 梁科慶,陳嘉薰', 108.00, 30),
+
+(26,'持續買進', 'Nick Maggiulli,李芳齡 (Translator)',67.00,27);
 
 -- Cover images are served from frontend/public/images.
 INSERT INTO book_images (book_id, image_url, is_primary)
@@ -163,7 +165,8 @@ VALUES
 (22, '/images/22-primary.jpg', TRUE),
 (23, '/images/23-primary.jpg', TRUE),
 (24, '/images/24-primary.jpg', TRUE),
-(25, '/images/25-primary.jpg', TRUE);
+(25, '/images/25-primary.jpg', TRUE),
+(26, '/images/26-primary.jpg', TRUE);
 
 INSERT INTO book_categories (book_id, category_id)
 VALUES
@@ -271,7 +274,11 @@ VALUES
 
 -- Q版特工 x 嘉薰醫生：真生再見
 (25, 2),
-(25, 3);
+(25, 3),
+
+-- 持續買進
+(26, 1),
+(26, 6);
 
 INSERT INTO cart_items (
     cart_item_id,

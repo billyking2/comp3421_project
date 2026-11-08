@@ -1,5 +1,5 @@
 <template>
-  <header class="site-header">
+  <header class="site-header" :class="{ 'is-scrolled': isScrolled }">
     <!-- container -->
     <div class="site-header-container">
       <!-- logo -->
@@ -36,7 +36,6 @@
       </nav>
 
       <div class="header-right">
-        <el-icon :size="20"><Search /></el-icon>
         <div>
           <RouterLink to="/shoppingcart" class="header-right-link"
             ><el-icon :size="25"><ShoppingCart /></el-icon></RouterLink
@@ -99,7 +98,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useUserStore } from "../../store/useUserStore";
 import { useRouter } from 'vue-router';
@@ -109,7 +108,12 @@ import { ElMessage } from "element-plus";
 
 const router = useRouter();
 const isMobileMenuOpen = ref(false);
+const isScrolled = ref(false);
 const userStore = useUserStore();
+
+function updateScrollState(): void {
+  isScrolled.value = window.scrollY > 20;
+}
 
 async function SignOut(){
   try {
@@ -129,7 +133,14 @@ const closeMenu = () => {
   isMobileMenuOpen.value = false;
 };
 
+onMounted(() => {
+  updateScrollState();
+  window.addEventListener("scroll", updateScrollState, { passive: true });
+});
 
+onUnmounted(() => {
+  window.removeEventListener("scroll", updateScrollState);
+});
 </script>
 
 <style scoped>
@@ -140,7 +151,19 @@ const closeMenu = () => {
   position: sticky;
   top: 0;
   z-index: 100;
+  background-color: #f9f1e6;
+  transition:
+    height 180ms ease,
+    background-color 180ms ease,
+    backdrop-filter 180ms ease;
 }
+
+.site-header.is-scrolled {
+  height: 48px;
+  background-color: rgba(249, 241, 230, 0.82);
+  backdrop-filter: blur(8px);
+}
+
 
 .site-header-container {
   display: flex;
@@ -148,6 +171,11 @@ const closeMenu = () => {
   justify-content: space-between;
   height: 60px;
   padding: 0 2rem;
+  transition: height 180ms ease;
+}
+
+.site-header.is-scrolled .site-header-container {
+  height: 48px;
 }
 
 .logo {

@@ -196,15 +196,27 @@ import { computed, onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useDashboardDataBookStore } from '../../../store/useDashboardDataBookStore';
 import { useTodayDataStore } from '../../../store/useTodayDataStore';
-import { changeBook } from '../../../services/dashboardData';
+import { changeBook, getCategories } from '../../../services/dashboardData';
 const bookStore = useDashboardDataBookStore();
 const EmergencyThreshold= ref(bookStore.emergencyThreshold);
 const search = ref('');
 const todayDataStore = useTodayDataStore();
+const categoryFilters = ref<{ text: string; value: string }[]>([]);
 
-onMounted(async () => {
-  await bookStore.loadBooks();
+onMounted(() => {
+  void bookStore.loadBooks();
+  void loadCategoryFilters();
 });
+
+async function loadCategoryFilters(): Promise<void> {
+  try {
+    const { data } = await getCategories();
+    categoryFilters.value = data.map((name) => ({ text: name, value: name }));
+  } catch (error) {
+    console.error(error);
+    ElMessage.error('Failed to load category filters');
+  }
+}
 
 const filteredBooks = computed(() => {
   return bookStore.books.filter((book) =>
@@ -213,12 +225,6 @@ const filteredBooks = computed(() => {
     )
   );
 });
-
-const categoryFilters = [
-  { text: 'Chinese', value: 'Chinese' },
-  { text: 'English', value: 'English' },
-  { text: 'Children', value: 'Children' }
-];
 
 function filterCategory(
   value: string,

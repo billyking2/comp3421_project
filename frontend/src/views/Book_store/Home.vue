@@ -83,7 +83,7 @@
           v-if="category.books.length"
           :interval="0"
           :loop="true"
-          arrow="always"
+          :arrow="category.books.length <= 4 ? 'never' : 'always'"
           indicator-position="none"
           height="370px"
           class="book-carousel"
@@ -125,7 +125,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { getBook, getSales, type DashboardBookData } from '../../services/dashboardData';
 
@@ -136,6 +136,7 @@ const topSellerIds = ref<number[]>([]);
 const brokenImageIds = ref(new Set<number>());
 const loading = ref(false);
 const error = ref('');
+const booksPerSlide = ref(4);
 
 const topSellers = computed(() => {
   const booksById = new Map(books.value.map((book) => [book.book_id, book]));
@@ -166,7 +167,19 @@ const categories = computed(() => {
   }));
 });
 
-onMounted(loadHomeData);
+function updateBooksPerSlide(): void {
+  booksPerSlide.value = window.matchMedia('(max-width: 850px)').matches ? 2 : 4;
+}
+
+onMounted(() => {
+  updateBooksPerSlide();
+  window.addEventListener('resize', updateBooksPerSlide);
+  void loadHomeData();
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateBooksPerSlide);
+});
 
 async function loadHomeData(): Promise<void> {
   loading.value = true;
@@ -199,8 +212,8 @@ function getErrorMessage(cause: unknown): string {
 
 function makeSlides(items: CatalogBook[]): CatalogBook[][] {
   const slides: CatalogBook[][] = [];
-  for (let index = 0; index < items.length; index += 2) {
-    slides.push(items.slice(index, index + 2));
+  for (let index = 0; index < items.length; index += booksPerSlide.value) {
+    slides.push(items.slice(index, index + booksPerSlide.value));
   }
   return slides;
 }
@@ -526,7 +539,7 @@ function markImageBroken(bookId: number): void {
 .book-slide {
   display: grid;
   height: 100%;
-  grid-template-columns: repeat(2, minmax(0, 190px));
+  grid-template-columns: repeat(4, minmax(0, 190px));
   align-items: start;
   justify-content: center;
   gap: clamp(16px, 3vw, 36px);

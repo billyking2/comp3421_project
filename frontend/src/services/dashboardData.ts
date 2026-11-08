@@ -78,6 +78,10 @@ export async function getBook(
   });
 }
 
+export async function getCategories() {
+  return api.get<string[]>("/api/get/getCategories");
+}
+
 export async function changeBook(
   bookId: number,
   price: number,

@@ -4,6 +4,7 @@ import signUp from './signUp.ts';
 import signOut from './signOut.ts';
 import getToday from './getToday.ts';
 import getBook from './getBook.ts';
+import getCategories from './getCategories.ts';
 import changeBook from './changeBook.ts';
 import getUsers from './getUsers.ts';
 import getOrders from './getOrders.ts';
@@ -17,6 +18,7 @@ routersEntry.use('/auth', signOut);
 
 routersEntry.use('/get', getToday);
 routersEntry.use('/get', getBook);
+routersEntry.use('/get', getCategories);
 routersEntry.use('/get', getUsers);
 routersEntry.use('/get', getOrders);
 routersEntry.use('/get', getSales);
