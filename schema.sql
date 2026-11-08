@@ -67,14 +67,24 @@ CREATE TABLE order_items (
     unit_price NUMERIC(10,2) NOT NULL CHECK (unit_price >= 0)
 );
 
--- 9. Indexes for Performance & Search Optimization
+-- 9. Message by contact form
+CREATE TABLE contact_messages (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+   	read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 10. Indexes for Performance & Search Optimization
 CREATE INDEX idx_books_title ON books(title);
 CREATE INDEX idx_books_author ON books(author);
 CREATE INDEX idx_orders_user ON orders(user_id);
 CREATE INDEX idx_cart_user ON cart_items(user_id);
 
 
--- 10.DCL
+-- 11.DCL
 
 -- ADMIN ROLE
 CREATE ROLE admin_role;

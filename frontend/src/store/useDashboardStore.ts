@@ -29,6 +29,7 @@ export const useDashboardStore = defineStore(
       inventory: 'Inventory',
       order: 'Order',
       member: 'Member',
+      messages: 'Messages',
     }
 
     return labels[state.activeMenu]

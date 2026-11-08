@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import pool from '../config/db';
-
+import { requireAdmin, requireAuth } from '../controllers/requireAuth';
 const router = Router();
 
-router.get('/getToday', async (req, res) => {
+router.get('/getToday', requireAuth, requireAdmin, async (req, res) => {
   try {
     const threshold = Number(req.query.threshold) || 5;
 

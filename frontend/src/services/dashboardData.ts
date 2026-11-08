@@ -58,6 +58,35 @@ export interface SalesAnalytics {
   }[];
 }
 
+export interface ContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  message: string;
+  read: boolean;
+  created_at: string;
+}
+
+export async function sendContactMessage(input: {
+  name: string;
+  email: string;
+  message: string;
+}) {
+  return api.post<{ message: string }>('/api/contact', input);
+}
+
+export async function getContactMessages() {
+  return api.get<ContactMessage[]>('/api/admin/contact-messages');
+}
+
+export async function markContactMessageRead(id: number) {
+  return api.patch<{ message: string }>(`/api/admin/contact-messages/${id}/read`);
+}
+
+export async function deleteContactMessage(id: number) {
+  return api.delete<{ message: string }>(`/api/admin/contact-messages/${id}`);
+}
+
 export async function getToday(
   threshold: number = 5
 ) {

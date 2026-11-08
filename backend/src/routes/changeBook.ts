@@ -1,9 +1,10 @@
 import { Router, Request, Response } from 'express';
 import pool from '../config/db';
+import { requireAdmin, requireAuth } from '../controllers/requireAuth';
 
 const router = Router();
 
-router.post('/changeBook', async (req: Request, res: Response) => {
+router.post('/changeBook', requireAuth, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { bookId, price , stock_quantity} = req.body;
 

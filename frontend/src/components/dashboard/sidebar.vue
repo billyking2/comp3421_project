@@ -1,8 +1,13 @@
 <template>
      <aside class="sidebar" :class="{ collapsed: dashboardStore.collapsed , 'mobile-open':mobileOpen }">
     <div class="brand">
-        <div class="logo"><RouterLink to="/"><p>Back</p></RouterLink></div>
-        <div v-if="!dashboardStore.collapsed" class="description"></div>
+        <div class="logo">
+            <RouterLink to="/" aria-label="Back to bookshop" title="Back to bookshop">
+                <el-icon><Back /></el-icon>
+                
+                <span class="brand-name">Back</span>
+            </RouterLink>
+        </div>
     </div>
     <nav>
         <button v-for="item in menus" :key="item.key" :class="{active: dashboardStore.activeMenu === item.key }" @click="handleMenuClick(item.key)">
@@ -29,6 +34,7 @@ const menus = [
      {key:"inventory",label:"Inventory", icon:"Box"},
       {key:"order",label:"Order", icon:"List"},
        {key:"member",label:"Member", icon:"User"},
+       {key:"messages",label:"Messages", icon:"Message"},
        
 ]
 
@@ -46,6 +52,3 @@ const handleMenuClick = (
 }
 
 </script>
-
-<style>
-</style>

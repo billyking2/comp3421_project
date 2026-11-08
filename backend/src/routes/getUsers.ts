@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
 import pool from '../config/db';
-
+import { requireAdmin, requireAuth } from '../controllers/requireAuth';
 const router = Router();
 
-router.get('/getUsers', async (_req: Request, res: Response) => {
+router.get('/getUsers', requireAuth, requireAdmin, async (_req: Request, res: Response) => {
   try {
     const result = await pool.query(`
       WITH paid_orders AS (

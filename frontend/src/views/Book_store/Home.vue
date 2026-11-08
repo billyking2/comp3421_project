@@ -66,7 +66,7 @@
       />
 
       <section
-        v-for="category in categories"
+        v-for="(category, categoryIndex) in categories"
         :key="category.name"
         class="category-carousel"
         :aria-label="`${category.name} books`"
@@ -83,7 +83,7 @@
           v-if="category.books.length"
           :interval="0"
           :loop="true"
-          :arrow="category.books.length <= 4 ? 'never' : 'always'"
+          :arrow="category.books.length <= arrowDisplayNo ? 'never' : 'always'"
           indicator-position="none"
           height="370px"
           class="book-carousel"
@@ -119,6 +119,7 @@
             </div>
           </el-carousel-item>
         </el-carousel>
+        <hr v-if="categoryIndex < categories.length - 1" class="category-divider" aria-hidden="true">
       </section>
     </section>
   </main>
@@ -137,6 +138,7 @@ const brokenImageIds = ref(new Set<number>());
 const loading = ref(false);
 const error = ref('');
 const booksPerSlide = ref(4);
+const arrowDisplayNo = ref(4);
 
 const topSellers = computed(() => {
   const booksById = new Map(books.value.map((book) => [book.book_id, book]));
@@ -169,6 +171,7 @@ const categories = computed(() => {
 
 function updateBooksPerSlide(): void {
   booksPerSlide.value = window.matchMedia('(max-width: 850px)').matches ? 2 : 4;
+  arrowDisplayNo.value = 2;
 }
 
 onMounted(() => {
@@ -509,6 +512,19 @@ function markImageBroken(bookId: number): void {
   min-width: 0;
 }
 
+.category-divider {
+  height: 1px;
+  margin: clamp(28px, 4vw, 44px) 0 0;
+  border: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--home-line) 12%,
+    var(--home-line) 88%,
+    transparent
+  );
+}
+
 .category-heading {
   display: flex;
   align-items: end;
@@ -707,6 +723,7 @@ function markImageBroken(bookId: number): void {
   .category-cover {
     width: min(100%, 145px);
   }
+  
 }
 
 @media (prefers-reduced-motion: reduce) {

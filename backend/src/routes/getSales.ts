@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import pool from '../config/db';
-
+import { requireAdmin, requireAuth } from '../controllers/requireAuth';
 const router = Router();
 
-router.get('/getSales', async (_req, res) => {
+router.get('/getSales', requireAuth, requireAdmin, async (_req, res) => {
   try {
     const [summary, monthlySales, bestSellingBooks] = await Promise.all([
       pool.query(`

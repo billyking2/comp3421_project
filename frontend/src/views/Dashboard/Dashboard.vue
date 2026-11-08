@@ -26,6 +26,7 @@ import Sales from './pages/Sales.vue'
 import Inventory from './pages/Inventory.vue'
 import Order from './pages/Order.vue'
 import Member from './pages/Member.vue'
+import Messages from './pages/Messages.vue'
 
 import { useDashboardStore } from '../../store/useDashboardStore.ts'
 
@@ -38,6 +39,7 @@ const pageMap = {
   inventory: Inventory,
   order: Order,
   member: Member,
+  messages: Messages,
 }
 
 const currentComponent = computed(() => {

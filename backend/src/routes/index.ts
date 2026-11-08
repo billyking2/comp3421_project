@@ -9,9 +9,11 @@ import changeBook from './changeBook.ts';
 import getUsers from './getUsers.ts';
 import getOrders from './getOrders.ts';
 import getSales from './getSales.ts';
+import contactMessages from './contactMessages.ts';
 
 const routersEntry = Router();
 
+routersEntry.use('/', contactMessages);
 routersEntry.use('/auth', signIn);
 routersEntry.use('/auth', signUp);
 routersEntry.use('/auth', signOut);
