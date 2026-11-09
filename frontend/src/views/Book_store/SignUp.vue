@@ -1,5 +1,4 @@
 <template>
-  <div>This is sign up page</div>
   <SignUpForm />
 </template>
 

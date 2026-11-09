@@ -13,6 +13,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AppFooter: typeof import('./src/components/common/AppFooter.vue')['default']
     AppHeader: typeof import('./src/components/common/AppHeader.vue')['default']
+    AuthFormCard: typeof import('./src/components/common/AuthFormCard.vue')['default']
     Card: typeof import('./src/components/dashboard/Card.vue')['default']
     Chart: typeof import('./src/components/dashboard/Chart.vue')['default']
     ElAlert: typeof import('element-plus/es')['ElAlert']
@@ -42,6 +43,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    FormCard: typeof import('./src/components/common/FormCard.vue')['default']
     Header: typeof import('./src/components/dashboard/header.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

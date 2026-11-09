@@ -58,6 +58,13 @@ export interface SalesAnalytics {
   }[];
 }
 
+export interface PopularBookData {
+  book_id: number | null;
+  title: string;
+  units_sold: number;
+  revenue: number;
+}
+
 export interface ContactMessage {
   id: number;
   name: string;
@@ -133,4 +140,8 @@ export async function getOrders() {
 
 export async function getSales() {
   return api.get<SalesAnalytics>("/api/get/getSales");
+}
+
+export async function getPopularBook() {
+  return api.get<PopularBookData[]>("/api/get/popularBook");
 }

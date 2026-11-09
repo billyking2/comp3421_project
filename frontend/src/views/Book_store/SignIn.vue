@@ -1,7 +1,4 @@
 <template>
-    <div>
-        this is login page
-    </div>
     <SignInForm />
 </template>
 

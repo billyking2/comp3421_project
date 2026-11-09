@@ -35,54 +35,61 @@
         </a>
       </div>
 
-      <form class="contact-card" @submit.prevent="submitMessage">
-        <span class="eyebrow">SEND A NOTE</span>
-        <h2>What’s on your mind?</h2>
-        <p class="card-intro">Just the basics. We’ll take it from there.</p>
+      <FormCard
+        eyebrow="SEND A NOTE"
+        title="What’s on your mind?"
+        title-id="contact-form-title"
+        heading-level="h2"
+        embedded
+      >
+        <form class="contact-form" @submit.prevent="submitMessage">
+          <p class="card-intro">Just the basics. We’ll take it from there.</p>
 
-        <label for="contact-name">Name</label>
-        <input
-          id="contact-name"
-          v-model.trim="name"
-          name="name"
-          type="text"
-          autocomplete="name"
-          placeholder="Your name"
-          maxlength="100"
-          required
-        />
+          <label for="contact-name">Name</label>
+          <input
+            id="contact-name"
+            v-model.trim="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            placeholder="Your name"
+            maxlength="100"
+            required
+          />
 
-        <label for="contact-email">Email</label>
-        <input
-          id="contact-email"
-          v-model.trim="email"
-          name="email"
-          type="email"
-          autocomplete="email"
-          placeholder="example@gmail.com"
-          maxlength="255"
-          required
-        />
+          <label for="contact-email">Email</label>
+          <input
+            id="contact-email"
+            v-model.trim="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="example@gmail.com"
+            maxlength="255"
+            pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
+            required
+          />
 
-        <label for="contact-message">Message</label>
-        <textarea
-          id="contact-message"
-          v-model.trim="message"
-          name="message"
-          rows="4"
-          placeholder="How can we help?"
-          maxlength="10000"
-          required
-        ></textarea>
+          <label for="contact-message">Message</label>
+          <textarea
+            id="contact-message"
+            v-model.trim="message"
+            name="message"
+            rows="4"
+            placeholder="How can we help?"
+            maxlength="10000"
+            required
+          ></textarea>
 
-        <button class="submit-button" type="submit" :disabled="sending">
-          {{ sending ? 'Sending...' : 'Send message' }}
-        </button>
-        <p v-if="success" class="form-success" role="status">
-          Message sent successfully.
-        </p>
-        <p v-if="error" class="form-error" role="alert">{{ error }}</p>
-      </form>
+          <button class="submit-button" type="submit" :disabled="sending">
+            {{ sending ? 'Sending...' : 'Send message' }}
+          </button>
+          <p v-if="success" class="form-success" role="status">
+            Message sent successfully.
+          </p>
+          <p v-if="error" class="form-error" role="alert">{{ error }}</p>
+        </form>
+      </FormCard>
     </section>
 
     <section class="location-section" aria-labelledby="location-title">
@@ -112,8 +119,10 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import FormCard from '../../components/common/FormCard.vue';
 import { sendContactMessage } from '../../services/dashboardData';
 import { getErrorMessage } from '../../utils/authStatus';
+import { isValidEmailValue } from '../../utils/formRule';
 
 const name = ref('');
 const email = ref('');
@@ -125,9 +134,15 @@ const error = ref('');
 async function submitMessage(): Promise<void> {
   if (sending.value) return;
 
-  sending.value = true;
   success.value = false;
   error.value = '';
+
+  if (!isValidEmailValue(email.value, 255)) {
+    error.value = 'Please enter a valid email address.';
+    return;
+  }
+
+  sending.value = true;
 
   try {
     await sendContactMessage({
@@ -185,7 +200,7 @@ async function submitMessage(): Promise<void> {
 .contact-card {
   padding: clamp(24px, 4vw, 40px);
   border: 1px solid var(--contact-line);
-  background: #f5f3ee;
+  background: #fffdfa;
 }
 
 .contact-card h2 {
@@ -239,20 +254,20 @@ async function submitMessage(): Promise<void> {
   text-decoration: none;
 }
 
-form.contact-card {
+form.contact-form {
   display: flex;
   flex-direction: column;
 }
 
-form.contact-card label {
+form.contact-form label {
   margin: 19px 0 7px;
   color: var(--contact-ink);
   font-size: 12px;
   font-weight: 600;
 }
 
-form.contact-card input,
-form.contact-card textarea {
+form.contact-form input,
+form.contact-form textarea {
   box-sizing: border-box;
   width: 100%;
   padding: 11px 12px;
@@ -264,13 +279,13 @@ form.contact-card textarea {
   font-size: 13px;
 }
 
-form.contact-card textarea {
+form.contact-form textarea {
   min-height: 110px;
   resize: vertical;
 }
 
-form.contact-card input:focus,
-form.contact-card textarea:focus {
+form.contact-form input:focus,
+form.contact-form textarea:focus {
   border-color: var(--contact-brown);
   outline: 2px solid rgb(128 101 77 / 18%);
   outline-offset: 1px;

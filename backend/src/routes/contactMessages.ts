@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import pool from '../config/db';
 import { requireAdmin, requireAuth } from '../controllers/requireAuth';
+import { CONTACT_EMAIL_MAX_LENGTH, isValidEmail } from '../utils/validation';
 
 const router = Router();
 
@@ -28,9 +29,7 @@ router.post('/contact', async (req: Request, res: Response): Promise<void> => {
   if (
     !cleanName ||
     cleanName.length > 100 ||
-    !cleanEmail ||
-    cleanEmail.length > 255 ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail) ||
+    !isValidEmail(cleanEmail, CONTACT_EMAIL_MAX_LENGTH) ||
     !cleanMessage ||
     cleanMessage.length > 10000
   ) {

@@ -1,69 +1,84 @@
 <template>
-  <el-form
-    ref="formRef"
-    :model="form"
-    :rules="rules"
-    label-width="120px"
-  >
-    <el-form-item
-      label="Username"
-      prop="username"
+  <FormCard eyebrow="JOIN THE BOOKSHOP" title="Create your account" title-id="sign-up-title">
+    <el-form
+      ref="formRef"
+      :model="form"
+      :rules="rules"
+      label-position="top"
+      class="auth-form"
     >
-      <el-input
-        ref="usernameInput"
-        v-model="form.username"
-        placeholder="Username"
-        clearable
+      <el-form-item
+        label="Username"
+        prop="username"
+      >
+        <el-input
+          ref="usernameInput"
+          v-model="form.username"
+          placeholder="Choose a username"
+          autocomplete="username"
+          clearable
+          size="large"
+        />
+      </el-form-item>
+
+      <el-form-item
+        label="Email"
+        prop="email"
+      >
+        <el-input
+          v-model="form.email"
+          type="email"
+          placeholder="example@gmail.com"
+          autocomplete="email"
+          clearable
+          size="large"
+        />
+      </el-form-item>
+
+      <el-form-item
+        label="Password"
+        prop="password"
+      >
+        <el-input
+          v-model="form.password"
+          type="password"
+          placeholder="Create a password"
+          autocomplete="new-password"
+          show-password
+          size="large"
+        />
+      </el-form-item>
+
+      <el-alert
+        v-if="error"
+        :title="error_msg"
+        type="error"
+        show-icon
+        :closable="false"
+        class="auth-error"
       />
-    </el-form-item>
 
-    <el-form-item
-      label="Email"
-      prop="email"
-    >
-      <el-input
-        v-model="form.email"
-        type="email"
-        placeholder="Email"
-        clearable
-      />
-    </el-form-item>
-
-    <el-form-item
-      label="Password"
-      prop="password"
-    >
-      <el-input
-        v-model="form.password"
-        type="password"
-        placeholder="Password"
-        show-password
-      />
-    </el-form-item>
-
-    <el-alert
-      v-if="error"
-      :title="error_msg"
-      type="error"
-      :closable="false"
-      class="mb-2"
-    />
-
-    <el-form-item>
       <el-button
-        type="success"
-        round
+        class="auth-submit"
+        type="primary"
         :loading="isLoading"
         :disabled="isLoading"
         @click="signUp"
       >
-        {{ isLoading ? 'Signing Up...' : 'Sign Up' }}
+        {{ isLoading ? 'Creating account...' : 'Create account' }}
       </el-button>
-    </el-form-item>
-  </el-form>
+    </el-form>
+
+    <template #footer>
+      <span>Already have an account?</span>
+      <RouterLink to="/signin" class="auth-link">Sign in</RouterLink>
+    </template>
+  </FormCard>
 </template>
 
 <script setup lang="ts">
+import { RouterLink } from "vue-router";
+import FormCard from './FormCard.vue';
 import {
   ref,
   reactive,
@@ -79,7 +94,7 @@ import type {
 import { useRouter } from "vue-router";
 import { signUp as signUpService } from "../../services/authService";
 import { getErrorMessage, useAuthStatus } from '../../utils/authStatus';
-import {usernameRules, passwordRules} from '../../utils/formRule'
+import { emailRules, passwordRules, usernameRules } from '../../utils/formRule'
 
 const router = useRouter();
 
@@ -94,18 +109,7 @@ const form = reactive({
 const rules = reactive<FormRules>({
   username: usernameRules,
 
-  email: [
-    {
-      required: true,
-      message: 'Please enter email',
-      trigger: 'blur',
-    },
-    {
-      type: 'email',
-      message: 'Invalid email format',
-      trigger: 'blur',
-    },
-  ],
+  email: emailRules,
 
   password: passwordRules,
 })
@@ -155,15 +159,3 @@ async function signUp() {
   }
 }
 </script>
-
-<style scoped>
-.sign-up-btn {
-  background-color: rgb(240, 242, 244);
-  color: black;
-}
-
-.sign-up-btn:hover {
-  background-color: #67c23a;
-  color: aliceblue;
-}
-</style>

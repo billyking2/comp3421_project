@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import pool from '../config/db';
 import jwt from 'jsonwebtoken';
+import { isValidPassword, USER_EMAIL_MAX_LENGTH } from '../utils/validation';
 
 const router = Router();
 
@@ -40,17 +41,24 @@ router.get('/me', (req: Request, res: Response) => {
 // Login Route
 router.post('/signIn', async (req: Request, res: Response): Promise<void> => {
   try {
-    const { username, password } = req.body;
+    const { username, password } =
+      typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)
+        ? req.body as Record<string, unknown>
+        : {};
 
-    // 1. Validate input
-    if (!username || !password) {
+    if (
+      typeof username !== 'string' ||
+      !username.trim() ||
+      username.trim().length > USER_EMAIL_MAX_LENGTH ||
+      !isValidPassword(password)
+    ) {
       res.status(400).json({ error: 'Please provide both username and password' });
       return;
     }
 
     // 2. Find user in PostgreSQL by username (or email)
     const userResult = await pool.query('SELECT * FROM users WHERE username = $1 OR email = $1', [
-      username,
+      username.trim(),
     ]);
 
     if (userResult.rows.length === 0) {

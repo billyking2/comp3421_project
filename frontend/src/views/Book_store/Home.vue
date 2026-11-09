@@ -128,7 +128,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
-import { getBook, getSales, type DashboardBookData } from '../../services/dashboardData';
+import { getBook, getPopularBook, type DashboardBookData } from '../../services/dashboardData';
 
 type CatalogBook = DashboardBookData;
 
@@ -189,7 +189,7 @@ async function loadHomeData(): Promise<void> {
   error.value = '';
 
   try {
-    const [bookResult, salesResult] = await Promise.allSettled([getBook(), getSales()]);
+    const [bookResult, popularResult] = await Promise.allSettled([getBook(), getPopularBook()]);
 
     if (bookResult.status === 'fulfilled') {
       books.value = bookResult.value.data;
@@ -197,12 +197,12 @@ async function loadHomeData(): Promise<void> {
       error.value = getErrorMessage(bookResult.reason);
     }
 
-    if (salesResult.status === 'fulfilled') {
-      topSellerIds.value = salesResult.value.data.bestSellingBooks
+    if (popularResult.status === 'fulfilled') {
+      topSellerIds.value = popularResult.value.data
         .map((book) => book.book_id)
         .filter((bookId): bookId is number => bookId !== null);
     } else {
-      error.value = [error.value, getErrorMessage(salesResult.reason)].filter(Boolean).join(' ');
+      error.value = [error.value, getErrorMessage(popularResult.reason)].filter(Boolean).join(' ');
     }
   } finally {
     loading.value = false;

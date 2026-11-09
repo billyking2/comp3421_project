@@ -649,14 +649,8 @@ body:has(.dashboard-shell) .el-drawer {
     gap: 0;
   }
 
-  .dashboard-shell .sidebar .brand .brand-name {
+  .dashboard-shell .sidebar .brand .logo .brand-name {
     display: none;
-  }
-
-  .dashboard-shell .sidebar .brand .logo a::before {
-    color: var(--dash-brown-dark);
-    content: "B.";
-    font-size: 21px;
   }
 
   .dashboard-shell .sidebar nav button {

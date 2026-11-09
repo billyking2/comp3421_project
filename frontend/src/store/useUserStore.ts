@@ -20,6 +20,10 @@ export const useUserStore = defineStore('user', {
       this.initialized = true;
     },
 
+    setUsername(username: string) {
+      this.username = username;
+    },
+
     signOut() {
       this.userId = null;
       this.username = null;

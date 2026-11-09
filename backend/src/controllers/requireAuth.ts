@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
 export interface AuthenticatedRequest extends Request {
-  user?: jwt.JwtPayload & { role?: string };
+  user?: jwt.JwtPayload & { userId?: string | number; role?: string };
 }
 
 export function requireAuth(req: Request, res: Response, next: NextFunction): void {

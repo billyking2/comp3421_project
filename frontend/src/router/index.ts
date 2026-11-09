@@ -7,6 +7,7 @@ const pages = [
   "Contact",
   "shoppingCart",
   "SignUp",
+  "Profile",
 ];
 
 const routes = [
@@ -79,6 +80,10 @@ router.beforeEach((to) => {
 
   if (to.path === "/dashboard" && userStore.role !== "admin") {
     return "/";
+  }
+
+  if (to.path === "/profile" && !userStore.userId) {
+    return { path: "/signin", query: { redirect: to.fullPath } };
   }
 });
 

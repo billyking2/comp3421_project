@@ -1,70 +1,61 @@
 <template>
-  <el-form
-    ref="formRef"
-    :model="form"
-    :rules="rules"
-    label-width="120px"
-    style="max-width: 1200px; padding: auto; margin: auto; min-width: 400px;"
-  >
-    <el-form-item
-      label="Username/Email"
-      prop="username"
+  <FormCard eyebrow="WELCOME BACK" title="Sign in to your account" title-id="sign-in-title">
+    <el-form
+      ref="formRef"
+      :model="form"
+      :rules="rules"
+      label-position="top"
+      class="auth-form"
+      @submit.prevent="signIn"
     >
-      <el-input
-        ref="usernameInput"
-        v-model="form.username"
-        placeholder="Username/Email"
-        clearable
+      <el-form-item label="Username or email" prop="username">
+        <el-input
+          ref="usernameInput"
+          v-model="form.username"
+          placeholder="Enter your username or email"
+          autocomplete="username"
+          clearable
+          size="large"
+        />
+      </el-form-item>
+
+      <el-form-item label="Password" prop="password">
+        <el-input
+          v-model="form.password"
+          type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          show-password
+          size="large"
+          @keyup.enter="signIn"
+        />
+      </el-form-item>
+
+      <el-alert
+        v-if="error"
+        :title="error_msg"
+        type="error"
+        show-icon
+        :closable="false"
+        class="auth-error"
       />
-    </el-form-item>
 
-    <el-form-item
-      label="Password"
-      prop="password"
-    >
-
-      <el-input
-        v-model="form.password"
-        type="password"
-        placeholder="Password"
-        show-password
-      />
-
-    </el-form-item>
-
-    <el-alert
-      v-if="error"
-      :title="error_msg"
-      type="error"
-      :closable="false"
-    />
-
-    <el-form-item>
       <el-button
-        type="success"
-        round
+        class="auth-submit"
+        type="primary"
         :loading="isLoading"
         :disabled="isLoading"
         @click="signIn"
       >
-        {{ isLoading ? 'Signing In...' : 'Sign In' }}
+        {{ isLoading ? 'Signing in...' : 'Sign in' }}
       </el-button>
-    </el-form-item>
-  </el-form>
+    </el-form>
 
-  <hr />
-
-  <p>Do not have account yet?</p>
-
-  <RouterLink to="/signup">
-    <el-button
-      type="success"
-      round
-      class="sign-up-btn"
-    >
-      SignUp
-    </el-button>
-  </RouterLink>
+    <template #footer>
+      <span>No Account?</span>
+      <RouterLink to="/signup" class="auth-link">Create an account</RouterLink>
+    </template>
+  </FormCard>
 </template>
 
 
@@ -82,10 +73,11 @@ import type {
 } from 'element-plus';
 
 import { useRouter } from 'vue-router';
+import FormCard from './FormCard.vue';
 import { useUserStore } from '../../store/useUserStore';
 import { signIn as loginService } from '../../services/authService';
 import { getErrorMessage, useAuthStatus } from '../../utils/authStatus';
-import {usernameRules, passwordRules} from '../../utils/formRule'
+import { loginIdentifierRules, passwordRules } from '../../utils/formRule'
 
 const router = useRouter();
 
@@ -97,7 +89,7 @@ const form = reactive({
 });
 
 const rules = reactive<FormRules>({
-  username: usernameRules,
+  username: loginIdentifierRules,
   password: passwordRules,
 })
 
@@ -154,15 +146,3 @@ async function signIn() {
   }
 }
 </script>
-
-<style scoped>
-.sign-up-btn {
-  background-color: rgb(240, 242, 244);
-  color: black;
-}
-
-.sign-up-btn:hover {
-  background-color: #67c23a;
-  color: aliceblue;
-}
-</style>

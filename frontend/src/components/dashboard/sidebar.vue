@@ -4,8 +4,7 @@
         <div class="logo">
             <RouterLink to="/" aria-label="Back to bookshop" title="Back to bookshop">
                 <el-icon><Back /></el-icon>
-                
-                <span class="brand-name">Back</span>
+                <span v-if="!dashboardStore.collapsed" class="brand-name">Back</span>
             </RouterLink>
         </div>
     </div>
