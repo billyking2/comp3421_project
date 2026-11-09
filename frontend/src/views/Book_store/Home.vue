@@ -5,7 +5,6 @@
 
       <div class="hero-content">
         <div class="hero-copy">
-          <span class="eyebrow">THE BOOKSHOP EDITION</span>
           <h1 id="hero-title">Stories to<br />stay with you.</h1>
           <p>Discover the books readers are taking home right now.</p>
           <RouterLink class="hero-link" to="/book">
@@ -73,7 +72,6 @@
       >
         <div class="category-heading">
           <div>
-            <span class="category-kicker">THE COLLECTION</span>
             <h3>{{ category.name }}</h3>
           </div>
           <span class="category-count">{{ category.books.length }} titles</span>
@@ -93,29 +91,38 @@
             :key="`${category.name}-${slideIndex}`"
           >
             <div class="book-slide">
-              <RouterLink
+              <div
                 v-for="book in slide"
                 :key="book.book_id"
-                to="/book"
                 class="category-book"
               >
-                <div class="category-cover">
-                  <img
-                    v-if="book.image_url && !brokenImageIds.has(book.book_id)"
-                    :src="book.image_url"
-                    :alt="`Cover of ${book.title}`"
-                    @error="markImageBroken(book.book_id)"
-                  />
-                  <div v-else class="cover-fallback">
-                    <span>THE BOOKSHOP</span>
-                    <strong>{{ book.title }}</strong>
-                    <small>{{ book.author }}</small>
+                <RouterLink to="/book" class="category-book-link">
+                  <div class="category-cover">
+                    <img
+                      v-if="book.image_url && !brokenImageIds.has(book.book_id)"
+                      :src="book.image_url"
+                      :alt="`Cover of ${book.title}`"
+                      @error="markImageBroken(book.book_id)"
+                    />
+                    <div v-else class="cover-fallback">
+                      <span>THE BOOKSHOP</span>
+                      <strong>{{ book.title }}</strong>
+                      <small>{{ book.author }}</small>
+                    </div>
                   </div>
-                </div>
-                <strong class="category-book-title">{{ book.title }}</strong>
-                <span class="category-book-author">{{ book.author }}</span>
-                <span class="category-book-price">${{ Number(book.price).toFixed(2) }}</span>
-              </RouterLink>
+                  <strong class="category-book-title">{{ book.title }}</strong>
+                  <span class="category-book-author">{{ book.author }}</span>
+                  <span class="category-book-price">${{ Number(book.price).toFixed(2) }}</span>
+                </RouterLink>
+                <el-button
+                  class="add-to-cart-button"
+                  size="small"
+                  :disabled="book.stock_quantity < 1"
+                  @click="addBookToCart(book)"
+                >
+                  {{ book.stock_quantity < 1 ? 'Out of stock' : 'Add to cart' }}
+                </el-button>
+              </div>
             </div>
           </el-carousel-item>
         </el-carousel>
@@ -128,11 +135,22 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
-import { getBook, getPopularBook, type DashboardBookData } from '../../services/dashboardData';
+import { getBook, getPopularBook, type DashboardBookData } from '../../services/Data';
+import {
+  addCartItem,
+  addGuestCartItem,
+  getGuestCart,
+  saveGuestCart,
+} from '../../services/cartService';
+import { useUserStore } from '../../store/useUserStore';
+import { ElMessage } from 'element-plus';
+import axios from 'axios';
+import { getErrorMessage as getAuthErrorMessage } from '../../utils/authStatus';
 
 type CatalogBook = DashboardBookData;
 
 const books = ref<CatalogBook[]>([]);
+const userStore = useUserStore();
 const topSellerIds = ref<number[]>([]);
 const brokenImageIds = ref(new Set<number>());
 const loading = ref(false);
@@ -210,6 +228,7 @@ async function loadHomeData(): Promise<void> {
 }
 
 function getErrorMessage(cause: unknown): string {
+  if (axios.isAxiosError(cause)) return getAuthErrorMessage(cause);
   return cause instanceof Error ? cause.message : 'Unable to load the book collection.';
 }
 
@@ -223,6 +242,21 @@ function makeSlides(items: CatalogBook[]): CatalogBook[][] {
 
 function markImageBroken(bookId: number): void {
   brokenImageIds.value.add(bookId);
+}
+
+async function addBookToCart(book: CatalogBook): Promise<void> {
+  try {
+    if (userStore.userId) {
+      await addCartItem(book.book_id);
+    } else {
+      const updatedCart = addGuestCartItem(getGuestCart(), book);
+      saveGuestCart(updatedCart);
+    }
+
+    ElMessage.success(`${book.title} added to your cart.`);
+  } catch (cause) {
+    ElMessage.error(getErrorMessage(cause));
+  }
 }
 </script>
 
@@ -278,8 +312,7 @@ function markImageBroken(bookId: number): void {
   padding-bottom: 25px;
 }
 
-.eyebrow,
-.category-kicker {
+.eyebrow{
   color: var(--home-brown);
   font-size: 10px;
   font-weight: 600;
@@ -569,6 +602,20 @@ function markImageBroken(bookId: number): void {
   align-items: flex-start;
   color: var(--home-ink);
   text-decoration: none;
+}
+
+.category-book-link {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  color: inherit;
+  text-decoration: none;
+}
+
+.add-to-cart-button {
+  margin-top: 9px;
 }
 
 .category-cover {

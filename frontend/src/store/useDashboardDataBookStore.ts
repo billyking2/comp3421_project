@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getBook, type DashboardBookData } from '../services/dashboardData';
+import { getBook, type DashboardBookData } from '../services/Data';
 
 export type BookData = DashboardBookData;
 

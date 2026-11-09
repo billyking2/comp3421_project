@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getSales, type SalesAnalytics } from '../services/dashboardData';
+import { getSales, type SalesAnalytics } from '../services/Data';
 
 export const useSalesDataStore = defineStore('salesData', {
   state: () => ({

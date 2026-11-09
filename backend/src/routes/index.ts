@@ -13,10 +13,14 @@ import getSales from './getSales.ts';
 import contactMessages from './contactMessages.ts';
 import profile from './profile.ts';
 import changeMyOrders from './changeMyOrders.ts';
+import cart from './cart.ts';
+import checkout from './checkout.ts';
 
 const routersEntry = Router();
 
 routersEntry.use('/', contactMessages);
+routersEntry.use('/', cart);
+routersEntry.use('/', checkout);
 routersEntry.use('/auth', signIn);
 routersEntry.use('/auth', signUp);
 routersEntry.use('/auth', signOut);

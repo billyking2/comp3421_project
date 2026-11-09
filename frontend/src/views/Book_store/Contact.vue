@@ -120,7 +120,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import FormCard from '../../components/common/FormCard.vue';
-import { sendContactMessage } from '../../services/dashboardData';
+import { sendContactMessage } from '../../services/Data.ts';
 import { getErrorMessage } from '../../utils/authStatus';
 import { isValidEmailValue } from '../../utils/formRule';
 

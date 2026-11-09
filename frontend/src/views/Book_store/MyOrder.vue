@@ -80,7 +80,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { changeMyOrders, getMyOrders, type DashboardOrder } from '../../services/dashboardData';
+import { changeMyOrders, getMyOrders, type DashboardOrder } from '../../services/Data.ts';
 import { ElMessage } from 'element-plus';
 import OrdersTable from '../../components/common/OrdersTable.vue';
 

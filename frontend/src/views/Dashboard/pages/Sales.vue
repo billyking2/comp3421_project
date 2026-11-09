@@ -68,7 +68,7 @@
 import { computed, onMounted } from 'vue';
 import type { EChartsOption } from 'echarts';
 import Chart from '../../../components/dashboard/Chart.vue';
-import type { SalesAnalytics } from '../../../services/dashboardData';
+import type { SalesAnalytics } from '../../../services/Data.ts';
 import { useSalesDataStore } from '../../../store/useSalesDataStore';
 
 const salesStore = useSalesDataStore();

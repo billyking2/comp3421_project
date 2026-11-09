@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getUsers, type DashboardUser } from '../services/dashboardData';
+import { getUsers, type DashboardUser } from '../services/Data';
 
 export type UsersData = DashboardUser;
 

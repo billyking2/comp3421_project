@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { getOrders, type DashboardOrder } from '../../../services/dashboardData';
+import { getOrders, type DashboardOrder } from '../../../services/Data.ts';
 import OrdersTable from '../../../components/common/OrdersTable.vue';
 
 const orders = ref<DashboardOrder[]>([]);

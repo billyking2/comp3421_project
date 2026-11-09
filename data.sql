@@ -367,3 +367,40 @@ VALUES
 -- Order 4 (David)
 (8, 4, 6, 1, 128.00),
 (9, 4, 19, 2, 108.00);
+
+-- Keep sequences in sync after inserting explicit IDs into SERIAL columns.
+SELECT setval(
+    pg_get_serial_sequence('users', 'user_id'),
+    COALESCE(MAX(user_id), 0) + 1,
+    false
+) FROM users;
+
+SELECT setval(
+    pg_get_serial_sequence('categories', 'category_id'),
+    COALESCE(MAX(category_id), 0) + 1,
+    false
+) FROM categories;
+
+SELECT setval(
+    pg_get_serial_sequence('books', 'book_id'),
+    COALESCE(MAX(book_id), 0) + 1,
+    false
+) FROM books;
+
+SELECT setval(
+    pg_get_serial_sequence('cart_items', 'cart_item_id'),
+    COALESCE(MAX(cart_item_id), 0) + 1,
+    false
+) FROM cart_items;
+
+SELECT setval(
+    pg_get_serial_sequence('orders', 'order_id'),
+    COALESCE(MAX(order_id), 0) + 1,
+    false
+) FROM orders;
+
+SELECT setval(
+    pg_get_serial_sequence('order_items', 'order_item_id'),
+    COALESCE(MAX(order_item_id), 0) + 1,
+    false
+) FROM order_items;

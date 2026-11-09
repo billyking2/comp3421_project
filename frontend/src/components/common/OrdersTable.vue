@@ -113,7 +113,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import type { DashboardOrder, DashboardOrderItem } from '../../services/dashboardData';
+import type { DashboardOrder, DashboardOrderItem } from '../../services/Data';
 
 interface Props {
   orders: DashboardOrder[];

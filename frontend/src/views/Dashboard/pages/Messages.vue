@@ -128,7 +128,7 @@ import {
   getContactMessages,
   markContactMessageRead,
   type ContactMessage,
-} from '../../../services/dashboardData';
+} from '../../../services/Data';
 import { getErrorMessage } from '../../../utils/authStatus';
 
 const messages = ref<ContactMessage[]>([]);

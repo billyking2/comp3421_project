@@ -196,7 +196,7 @@ import { computed, onMounted, ref } from 'vue';
 import { ElMessage } from 'element-plus';
 import { useDashboardDataBookStore } from '../../../store/useDashboardDataBookStore';
 import { useTodayDataStore } from '../../../store/useTodayDataStore';
-import { changeBook, getCategories } from '../../../services/dashboardData';
+import { changeBook, getCategories } from '../../../services/Data';
 const bookStore = useDashboardDataBookStore();
 const EmergencyThreshold= ref(bookStore.emergencyThreshold);
 const search = ref('');
