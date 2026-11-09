@@ -138,6 +138,20 @@ export async function getOrders() {
   return api.get<DashboardOrder[]>("/api/get/getOrders");
 }
 
+export async function getMyOrders() {
+  return api.get<DashboardOrder[]>("/api/get/myOrders");
+}
+
+export async function changeMyOrders(id: number) {
+  return api.post<{ order_id: number; payment_status: DashboardOrder['payment_status'] }>(
+    "/api/post/changeMyOrders",
+    {
+      orderId: id,
+    },
+  );
+}
+
+
 export async function getSales() {
   return api.get<SalesAnalytics>("/api/get/getSales");
 }

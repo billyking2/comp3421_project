@@ -37,6 +37,12 @@ const routes = [
           component: () =>
             import(`../views/Book_store/${page}.vue`),
         })),
+        {
+          path: 'orders',
+          name: 'orders',
+          component: () =>
+            import('../views/Book_store/MyOrder.vue'),
+        },
       ],
     },
 
@@ -82,7 +88,7 @@ router.beforeEach((to) => {
     return "/";
   }
 
-  if (to.path === "/profile" && !userStore.userId) {
+  if (["/profile", "/orders"].includes(to.path) && !userStore.userId) {
     return { path: "/signin", query: { redirect: to.fullPath } };
   }
 });
