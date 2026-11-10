@@ -2,7 +2,6 @@
   <main class="about-page">
     <section class="about-hero" aria-labelledby="about-title">
       <div class="hero-copy">
-        <span class="eyebrow">A LITTLE ABOUT THIS WEBSITE</span>
         <h1>So many books, so little time</h1>
         <h2>-Frank Zappa</h2>
         <p class="positioning">
@@ -46,13 +45,6 @@ import { RouterLink } from 'vue-router';
   padding: clamp(40px, 7vw, 88px) 0 90px;
   color: var(--about-ink);
   font-family: Arial, sans-serif;
-}
-
-.eyebrow {
-  color: var(--about-brown);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
 }
 
 .about-hero {

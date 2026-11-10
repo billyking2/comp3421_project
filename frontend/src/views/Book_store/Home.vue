@@ -50,7 +50,6 @@
     <section class="category-section" aria-labelledby="category-title">
       <header class="section-heading">
         <div>
-          <span class="eyebrow">FIND YOUR NEXT CHAPTER</span>
           <h2 id="category-title">Browse by category</h2>
         </div>
         <RouterLink to="/book" class="all-books-link">View all books <span>↗</span></RouterLink>
@@ -135,7 +134,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { RouterLink } from 'vue-router';
-import { getBook, getPopularBook, type DashboardBookData } from '../../services/Data';
+import { getBook, getPopularBook, type BookData } from '../../services/Data';
 import {
   addCartItem,
   addGuestCartItem,
@@ -147,7 +146,7 @@ import { ElMessage } from 'element-plus';
 import axios from 'axios';
 import { getErrorMessage as getAuthErrorMessage } from '../../utils/authStatus';
 
-type CatalogBook = DashboardBookData;
+type CatalogBook = BookData;
 
 const books = ref<CatalogBook[]>([]);
 const userStore = useUserStore();
@@ -310,13 +309,6 @@ async function addBookToCart(book: CatalogBook): Promise<void> {
   position: relative;
   z-index: 2;
   padding-bottom: 25px;
-}
-
-.eyebrow{
-  color: var(--home-brown);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
 }
 
 .hero-copy h1 {

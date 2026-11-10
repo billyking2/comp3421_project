@@ -1,9 +1,6 @@
 <template>
   <main class="my-orders-page">
     <div class="orders-content">
-      <header class="page-heading">
-        <h1 style="padding-bottom: 10px;">My orders</h1>
-      </header>
 
 
       <el-card class="orders-card" shadow="never">

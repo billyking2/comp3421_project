@@ -1,10 +1,10 @@
 <template>
   <main class="profile-page">
     <FormCard
-      eyebrow="YOUR ACCOUNT"
+      eyebrow=""
       title="Account settings"
       title-id="profile-title"
-    >
+      >
       <div class="profile-sections">
         <section class="profile-section" aria-labelledby="personal-title">
           <h2 id="personal-title">Personal details</h2>

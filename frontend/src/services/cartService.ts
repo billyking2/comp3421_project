@@ -1,5 +1,5 @@
 import api from './api';
-import type { DashboardBookData } from './Data';
+import type { BookData } from './Data';
 
 export interface CartItem {
   book_id: number;
@@ -88,7 +88,7 @@ export function saveGuestCart(items: CartItem[]): void {
 // Add a book to the guest cart while enforcing its stock limit.
 export function addGuestCartItem(
   items: CartItem[],
-  book: DashboardBookData,
+  book: BookData,
   quantity: number = 1,
 ): CartItem[] {
   const existingItem = items.find(({ book_id }) => book_id === book.book_id);

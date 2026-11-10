@@ -176,7 +176,7 @@
 import { computed, onMounted, ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 import { ElMessage } from 'element-plus';
-import { getBook, type DashboardBookData } from '../../services/Data';
+import { getBook, type BookData } from '../../services/Data';
 import {
   addCartItem,
   addGuestCartItem,
@@ -194,7 +194,7 @@ import { useUserStore } from '../../store/useUserStore';
 
 const userStore = useUserStore();
 const cartItems = ref<CartItem[]>([]);
-const books = ref<DashboardBookData[]>([]);
+const books = ref<BookData[]>([]);
 const loading = ref(false);
 const addingBook = ref(false);
 const ordering = ref(false);
@@ -267,7 +267,7 @@ async function loadCart(): Promise<void> {
   }
 }
 
-function processBookCatalog(result: PromiseSettledResult<Awaited<ReturnType<typeof getBook>>>): DashboardBookData[] {
+function processBookCatalog(result: PromiseSettledResult<Awaited<ReturnType<typeof getBook>>>): BookData[] {
   if (result.status === 'fulfilled') {
     const mappedBooks = result.value.data.map((book) => ({
       ...book,
@@ -290,7 +290,7 @@ function processUserCart(result: PromiseSettledResult<any>): void {
   }
 }
 
-function processGuestCart(latestBooks: DashboardBookData[]): void {
+function processGuestCart(latestBooks: BookData[]): void {
   try {
     const savedItems = getGuestCart();
     const booksById = new Map(latestBooks.map((book) => [book.book_id, book]));
@@ -434,7 +434,7 @@ function isBookAvailable(item: CartItem): boolean {
 }
 
   // Mirror the database's updated quantity in the displayed account cart.
-function setCartItemQuantity(book: DashboardBookData, quantity: number): void {
+function setCartItemQuantity(book: BookData, quantity: number): void {
   const existingItem = cartItems.value.find((item) => item.book_id === book.book_id);
   const cartItem: CartItem = {
     book_id: book.book_id,

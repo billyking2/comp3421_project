@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
-import { getBook, type DashboardBookData } from '../services/Data';
+import { getBook, type BookData } from '../services/Data';
 
-export type BookData = DashboardBookData;
+export type BookDatas = BookData;
 
 export const useDashboardDataBookStore = defineStore(
   'dashboardDataBook',

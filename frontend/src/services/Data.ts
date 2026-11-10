@@ -1,6 +1,6 @@
 import api from "./api";
 
-export interface DashboardBookData {
+export interface BookData {
   book_id: number;
   title: string;
   author: string;
@@ -107,7 +107,7 @@ export async function getToday(
 export async function getBook(
   threshold: number = 5
 ) {
-  return api.get<DashboardBookData[]>("/api/get/getBook", {
+  return api.get<BookData[]>("/api/get/getBook", {
     params: {
       threshold,
     },

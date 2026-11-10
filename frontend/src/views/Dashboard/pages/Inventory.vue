@@ -275,13 +275,22 @@ async function changeBookByRow(row: {
   stock_quantity: number;
 }) {
   try {
-    await changeBook(row.book_id,row.price,row.stock_quantity);
+    await changeBook(row.book_id, row.price, row.stock_quantity);
+    ElMessage.success({
+      message: 'Book updated successfully.',
+      placement: 'top',
+      offset: 72,
+      appendTo: document.body,
+    });
   } catch (error) {
     console.error(error);
 
-    ElMessage.error(
-      'Failed to update book'
-    );
+    ElMessage.error({
+      message: 'Failed to update book.',
+      placement: 'top',
+      offset: 72,
+      appendTo: document.body,
+    });
   }
 }
 </script>
