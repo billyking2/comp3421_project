@@ -31,6 +31,13 @@ const routes = [
             import('../views/Book_store/SignIn.vue'),
         },
 
+        {
+          path: 'book/:id',
+          name: 'book-detail',
+          component: () =>
+            import('../views/Book_store/BookDetail.vue'),
+        },
+
         ...pages.map((page) => ({
           path: page.toLowerCase(),
           name: page.toLowerCase(),

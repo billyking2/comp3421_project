@@ -21,7 +21,8 @@ CREATE TABLE books (
     title VARCHAR(255) NOT NULL,
     author VARCHAR(255) NOT NULL,
     price NUMERIC(10, 2) NOT NULL CHECK (price >= 0), 
-    stock_quantity INT NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0)
+    stock_quantity INT NOT NULL DEFAULT 0 CHECK (stock_quantity >= 0),
+    description TEXT
 );
 
 -- 4. book can belong to multiple categories

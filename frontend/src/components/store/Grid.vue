@@ -2,18 +2,20 @@
   <div class="book-grid">
     <article v-for="book in books" :key="book.book_id" class="book-card">
       <div class="book-cover">
-        <img
-          v-if="book.image_url && !brokenImageIds.has(book.book_id)"
-          :src="book.image_url"
-          :alt="`Cover of ${book.title}`"
-          loading="lazy"
-          @error="markImageBroken(book.book_id)"
-        />
-        <div v-else class="cover-fallback">
-          <strong>{{ book.title }}</strong>
-          <small>{{ book.author }}</small>
-        </div>
-        
+        <RouterLink class="cover-link" :to="`/book/${book.book_id}`" :aria-label="`View details for ${book.title}`">
+          <img
+            v-if="book.image_url && !brokenImageIds.has(book.book_id)"
+            :src="book.image_url"
+            :alt="`Cover of ${book.title}`"
+            loading="lazy"
+            @error="markImageBroken(book.book_id)"
+          />
+          <div v-else class="cover-fallback">
+            <strong>{{ book.title }}</strong>
+            <small>{{ book.author }}</small>
+          </div>
+        </RouterLink>
+
         <button
           class="cover-cart-button"
           type="button"
@@ -28,7 +30,9 @@
       <div class="book-information">
         <p class="book-category">{{ book.categories || 'Book' }}</p>
         <div class="book-title-row">
-          <h2>{{ book.title }}</h2>
+          <RouterLink class="book-title-link" :to="`/book/${book.book_id}`">
+            <h2>{{ book.title }}</h2>
+          </RouterLink>
           <strong class="book-price">${{ Number(book.price).toFixed(2) }}</strong>
         </div>
         <p class="book-author">by {{ book.author }}</p>
@@ -39,6 +43,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import { RouterLink } from 'vue-router';
 import type { BookData } from '../../services/Data';
 
 defineProps<{
@@ -86,6 +91,25 @@ function markImageBroken(bookId: number): void {
 }
 
 .book-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cover-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.cover-link:focus-visible,
+.book-title-link:focus-visible {
+  outline: 3px solid #60472f;
+  outline-offset: 3px;
+}
+
+.cover-link img {
   display: block;
   width: 100%;
   height: 100%;
@@ -173,11 +197,16 @@ function markImageBroken(bookId: number): void {
   gap: 8px;
 }
 
+.book-title-link {
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
 .book-information h2 {
   display: -webkit-box;
   overflow: hidden;
-  flex: 1;
-  min-width: 0;
   margin: 0;
   color: #38332d;
   font-family: Georgia, "Times New Roman", serif;

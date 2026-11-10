@@ -3,7 +3,9 @@
     <!-- container -->
     <div class="site-header-container">
       <!-- logo -->
+       <RouterLink to="/" class="logo-link" aria-label="Go to homepage" @click.prevent="goHomeTop">
       <div class="logo">Logo</div>
+      </RouterLink>
       <!-- hamburger-button -->
       <button class="hamburger-btn" @click="toggleMenu">
         <span class="bar"></span>
@@ -98,7 +100,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { nextTick, onMounted, onUnmounted, ref } from "vue";
 import { RouterLink } from "vue-router";
 import { useUserStore } from "../../store/useUserStore";
 import { useRouter } from 'vue-router';
@@ -110,6 +112,13 @@ const router = useRouter();
 const isMobileMenuOpen = ref(false);
 const isScrolled = ref(false);
 const userStore = useUserStore();
+
+async function goHomeTop(): Promise<void> {
+  closeMenu();
+  await router.push('/');
+  await nextTick();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function updateScrollState(): void {
   isScrolled.value = window.scrollY > 20;
@@ -184,6 +193,10 @@ onUnmounted(() => {
   color: #1a1a1a;
   text-decoration: none;
   min-width: 180px;
+}
+
+.logo-link {
+  text-decoration: none;
 }
 
 .logo-img {

@@ -12,6 +12,7 @@ router.get('/getBook', async (_req: Request, res: Response) => {
         b.author,
         b.price,
         b.stock_quantity,
+        b.description,
 
         bi.image_url,
 

@@ -1,4 +1,5 @@
 <template>
+  <el-backtop :right="20" :bottom="30" />
   <main class="bookstore-home">
     <section class="bestseller-hero" aria-labelledby="hero-title">
       <div class="hero-watermark" aria-hidden="true">READ<br />SOMETHING<br />WONDERFUL</div>
@@ -22,7 +23,7 @@
             :key="book.book_id"
             class="featured-book"
             :class="`featured-book-${index + 1}`"
-            to="/book"
+            :to="`/book/${book.book_id}`"
           >
             <div class="book-cover">
               <img
@@ -95,7 +96,7 @@
                 :key="book.book_id"
                 class="category-book"
               >
-                <RouterLink to="/book" class="category-book-link">
+                <RouterLink :to="`/book/${book.book_id}`" class="category-book-link">
                   <div class="category-cover">
                     <img
                       v-if="book.image_url && !brokenImageIds.has(book.book_id)"

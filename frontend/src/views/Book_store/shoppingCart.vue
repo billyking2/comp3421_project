@@ -414,7 +414,7 @@ async function placeOrder(): Promise<void> {
     cartItems.value = [];
     orderDialogVisible.value = false;
     ElMessage.success(
-      `Order #${data.order_id} placed. Payment status: ${data.payment_status}.`,
+      `Order ${data.order_id} placed. Payment status: ${data.payment_status}.`,
     );
     await loadCart();
   } catch (cause) {

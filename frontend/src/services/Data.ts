@@ -6,6 +6,7 @@ export interface BookData {
   author: string;
   price: number;
   stock_quantity: number;
+  description: string | null;
   image_url: string | null;
   categories: string;
 }

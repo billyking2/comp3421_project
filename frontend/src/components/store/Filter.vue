@@ -5,7 +5,7 @@
       <span>{{ books.length }} total</span>
     </div>
 
-    // Price filter
+    <!-- Price filter -->
     <fieldset v-if="priceBands.length" class="filter-group">
       <legend>Price</legend>
       <label class="filter-option">
@@ -19,7 +19,7 @@
         <span>All prices</span>
         <span class="option-count">{{ priceAvailableCount }}</span>
       </label>
-    // Price filter options
+    <!-- Price filter options -->
       <label
         v-for="band in priceBands"
         :key="band.id"
