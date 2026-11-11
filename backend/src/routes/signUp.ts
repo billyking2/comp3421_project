@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import pool from '../config/db';
+import rateLimit from 'express-rate-limit';
 import {
   isValidEmail,
   isValidPassword,
@@ -10,8 +11,15 @@ import {
 
 const router = Router();
 
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true, 
+  legacyHeaders: false
+});
 // Register Route
-router.post('/signUp', async (req: Request, res: Response): Promise<void> => {
+router.post('/signUp', authLimiter, async (req: Request, res: Response): Promise<void> => {
   try {
     if (typeof req.body !== 'object' || req.body === null || Array.isArray(req.body)) {
       res.status(400).json({ error: 'Please provide username, email, and password' });

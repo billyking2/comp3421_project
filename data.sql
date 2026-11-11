@@ -326,6 +326,7 @@ INSERT INTO orders (
     payment_status,
     created_at
 )
+OVERRIDING SYSTEM VALUE
 VALUES
 (
     1,
@@ -363,6 +364,7 @@ INSERT INTO order_items (
     quantity,
     unit_price
 )
+OVERRIDING SYSTEM VALUE
 VALUES
 
 -- Order 1 (Alice)

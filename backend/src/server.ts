@@ -5,6 +5,7 @@ import routersEntry from './routes';
 import pool from './config/db';
 import cookieParser from 'cookie-parser';
 
+
 dotenv.config();
 
 const app = express();
@@ -19,6 +20,10 @@ app.use(
   }),
 );
 app.use(express.json());
+app.set('trust proxy', 1);
+
+
+
 
 app.get('/api/health', async (req, res) => {
   try {
@@ -27,8 +32,8 @@ app.get('/api/health', async (req, res) => {
       message: 'Backend server and PostgreSQL are connected!',
       time: result.rows[0].now,
     });
-  } catch (err: error ) {
-    res.status(500).json({ error: 'Database connection failed', details: err.message });
+  } catch (err: unknown) {
+    res.status(500).json({ error: 'Database connection failed', details: (err as Error).message });
   }
 });
 

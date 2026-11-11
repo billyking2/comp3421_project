@@ -3,8 +3,17 @@ import bcrypt from 'bcryptjs';
 import pool from '../config/db';
 import jwt from 'jsonwebtoken';
 import { isValidPassword, USER_EMAIL_MAX_LENGTH } from '../utils/validation';
+import rateLimit from 'express-rate-limit';
 
 const router = Router();
+
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, 
+  max: 100, 
+  message: 'Too many requests from this IP, please try again later.',
+  standardHeaders: true, 
+  legacyHeaders: false
+});
 
 router.get('/me', (req: Request, res: Response) => {
   const token = req.cookies.token;
@@ -15,7 +24,7 @@ router.get('/me', (req: Request, res: Response) => {
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!);
+    const payload = jwt.verify(token, process.env.JWT_SECRET!, {algorithms: ['HS256']});
     if (typeof payload === 'string') {
       res.status(200).json({ authenticated: false });
       return;
@@ -39,7 +48,7 @@ router.get('/me', (req: Request, res: Response) => {
 });
 
 // Login Route
-router.post('/signIn', async (req: Request, res: Response): Promise<void> => {
+router.post('/signIn',authLimiter,async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, password } =
       typeof req.body === 'object' && req.body !== null && !Array.isArray(req.body)
@@ -56,7 +65,7 @@ router.post('/signIn', async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    // 2. Find user in PostgreSQL by username (or email)
+    // Find user in PostgreSQL by username (or email)
     const userResult = await pool.query('SELECT * FROM users WHERE username = $1 OR email = $1', [
       username.trim(),
     ]);
@@ -67,16 +76,17 @@ router.post('/signIn', async (req: Request, res: Response): Promise<void> => {
     }
 
     const user = userResult.rows[0];
-
-    // 3. Compare password with the stored hash using bcryptjs
-    const isMatch = await bcrypt.compare(password, user.password_hash);
+    const DUMMY_HASH = '123456789abcdefg';
+    // Compare password with the stored hash using bcryptjs
+    const hash = user.password_hash || DUMMY_HASH; // Use a dummy hash if the user doesn't exist
+    const isMatch = await bcrypt.compare(password, hash);
 
     if (!isMatch) {
       res.status(400).json({ error: 'Invalid username or password' });
       return;
     }
 
-    // 4. Send back user details matching frontend Pinia store expectations
+    // Send back user details matching frontend Pinia store expectations
     const token = jwt.sign(
       {
         userId: user.user_id,
@@ -85,7 +95,8 @@ router.post('/signIn', async (req: Request, res: Response): Promise<void> => {
       },
       process.env.JWT_SECRET!,
       {
-        expiresIn: '1d',
+        algorithm: 'HS256',
+        expiresIn: '2h',
       },
     );
 

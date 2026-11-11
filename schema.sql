@@ -52,7 +52,7 @@ CREATE TABLE cart_items (
 
 -- 7. Orders Table (Checkout and Fulfillment Status)
 CREATE TABLE orders (
-    order_id SERIAL PRIMARY KEY,
+    order_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     user_id INT REFERENCES users(user_id) ON DELETE SET NULL,
     total_amount NUMERIC(10, 2) NOT NULL CHECK (total_amount > 0),
     payment_status VARCHAR(20) DEFAULT 'not paid' CHECK (payment_status IN ('not paid', 'paid')),
@@ -61,7 +61,7 @@ CREATE TABLE orders (
 
 -- 8. order item
 CREATE TABLE order_items (
-    order_item_id SERIAL PRIMARY KEY,
+    order_item_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     order_id INT REFERENCES orders(order_id) ON DELETE CASCADE,
     book_id INT REFERENCES books(book_id) ON DELETE SET NULL,
     quantity INT NOT NULL CHECK (quantity > 0),

@@ -16,7 +16,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction): vo
   }
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET!);
+    const payload = jwt.verify(token, process.env.JWT_SECRET!, {algorithms: ['HS256']});
     if (typeof payload === 'string') {
       res.status(401).json({ error: 'Invalid token' });
       return;

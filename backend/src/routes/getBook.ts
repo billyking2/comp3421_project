@@ -54,14 +54,13 @@ router.get('/popularBook', async (_req: Request, res: Response) => {
       SELECT
           b.book_id,
           COALESCE(b.title, 'Deleted book') AS title,
-          SUM(oi.quantity)::int AS units_sold,
-          SUM(oi.quantity * oi.unit_price)::float AS revenue
+          SUM(oi.quantity)::int AS units_sold
         FROM order_items oi
         JOIN orders o ON o.order_id = oi.order_id
         LEFT JOIN books b ON b.book_id = oi.book_id
         WHERE o.payment_status = 'paid'
         GROUP BY b.book_id, b.title
-        ORDER BY units_sold DESC, revenue DESC, title
+        ORDER BY units_sold DESC, title
         LIMIT 3;
     `);
 
@@ -70,7 +69,7 @@ router.get('/popularBook', async (_req: Request, res: Response) => {
     console.error(error);
 
     res.status(500).json({
-      error: 'Failed to fetch categories',
+      error: 'Failed to fetch popular books',
     });
   }
 });

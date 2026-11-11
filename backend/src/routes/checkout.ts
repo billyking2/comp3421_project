@@ -116,25 +116,6 @@ router.post('/checkout', async (req: Request, res: Response): Promise<void> => {
       throw new CheckoutError('The order total must be greater than zero', 400);
     }
 
-    // Lock the orders and order_items tables to prevent concurrent inserts that could cause primary key conflicts
-    await client.query('LOCK TABLE orders, order_items IN EXCLUSIVE MODE');
-    // Reset the sequences for orders and order_items to avoid primary key conflicts
-    await client.query(
-      `SELECT setval(
-        pg_get_serial_sequence('orders', 'order_id'),
-        COALESCE(MAX(order_id), 0) + 1,
-        false
-      ) FROM orders`,
-    );
-    // Reset the sequence for order_items to avoid primary key conflicts
-    await client.query(
-      `SELECT setval(
-        pg_get_serial_sequence('order_items', 'order_item_id'),
-        COALESCE(MAX(order_item_id), 0) + 1,
-        false
-      ) FROM order_items`,
-    );
-
     const totalAmount = totalCents / 100;
     const paymentStatus = paymentChoice === 'pay_now' ? 'paid' : 'not paid';
     // Insert the order into the database and get the generated order_id

@@ -63,7 +63,6 @@ export interface PopularBookData {
   book_id: number | null;
   title: string;
   units_sold: number;
-  revenue: number;
 }
 
 export interface ContactMessage {

@@ -1,9 +1,9 @@
 import { Router, Request, Response } from 'express';
 import pool from '../config/db';
-
+import { requireAdmin, requireAuth } from '../controllers/requireAuth';
 const router = Router();
 
-router.get('/getOrders', async (_req: Request, res: Response) => {
+router.get('/getOrders', requireAdmin, requireAuth, async (_req: Request, res: Response) => {
   try {
     const result = await pool.query(`
       SELECT
